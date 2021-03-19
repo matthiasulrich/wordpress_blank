@@ -15,7 +15,9 @@ gruen = rgb(60,70,95);
 gelb = rgb(255,220,0);
 */
 
-
+body{
+	background: grey;
+}
 #content_container{
 	opacity: 0;
 }
