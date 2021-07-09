@@ -106,6 +106,13 @@ function enqueue_comment_reply_script() {
 /* ============================================ *\
 	Theme Support
 \* ============================================ */
+// add the admin options page
+add_action('admin_menu', 'plugin_admin_add_page');
+function plugin_admin_add_page() {
+add_options_page('Custom Plugin Page', 'Custom Plugin Menu', 'manage_options', 'plugin', 'plugin_options_page');
+}
+
+
 /*Title*/
 add_filter( 'document_title_separator', 'document_title_separator' );
 function document_title_separator( $sep ) {
