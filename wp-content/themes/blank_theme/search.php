@@ -18,11 +18,11 @@
 	
 		<article id="post-0" class="post no-results not-found">
 			<header class="header">
-				<h2 class="entry-title"><?php _e( 'Nothing Found', 'betschart-gh' ); ?></h2>
+				<h2 class="entry-title">Leider nichts gefunden</h2>
 			</header>
 	
 			<section class="entry-content">
-				<p><?php _e( 'Sorry, nothing matched your search. Please try again.', 'betschart-gh' ); ?></p>
+				<p>Keine Suchergebnisse</p>
 				<?php get_search_form(); ?>
 			</section>
 		</article>
