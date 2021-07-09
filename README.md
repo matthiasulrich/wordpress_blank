@@ -10,9 +10,7 @@ Entwicklungs-Theme für ulrich.ulrich_digital
 - Permalinks automatisch einstellen
 - Zeitzone automatisch einstellen
 
-## Theme Sätze
-Evtl. als Optionen hinterlegen
-
-### search.php
-- Suchergebnisse für
-- Leider nichts gefunden
+### "Theme Sätze"
+z. B. "Suchergebnisse für"
+Wie/Wo hinterlegen? Evtl. als Optionen-Seite hinterlegen?
+https://codex.wordpress.org/Creating_Options_Pages
