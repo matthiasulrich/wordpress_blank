@@ -1,5 +1,5 @@
 /*
-Theme Name: Paradies Theme
+Theme Name: ulrich.digital Blank Theme
 Author: ulrich.digital
 Author URI: https://ulrich.digital
 Version: 2019.1
@@ -8,17 +8,91 @@ License URI: https://www.gnu.org/licenses/gpl.html
 Description: Das Worpress Theme ulrich_digital_blank ist ein Entwicklungs-Theme von ulrich.digital.
 Text Domain: ulrich_digital_blank
 */
-html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}table{border-collapse:collapse;border-spacing:0}
 
+/* CSS  Reset  */
+article,aside,details,figcaption,figure,footer,header,hgroup,hr,menu,nav,section{display:block}a,hr{padding:0}abbr,address,article,aside,audio,b,blockquote,body,canvas,caption,cite,code,dd,del,details,dfn,div,dl,dt,em,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,header,hgroup,html,i,iframe,img,ins,kbd,label,legend,li,mark,menu,nav,object,ol,p,pre,q,samp,section,small,span,strong,sub,summary,sup,table,tbody,td,tfoot,th,thead,time,tr,ul,var,video{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:0 0}ins,mark{background-color:#ff9;color:#000}body{line-height:1}nav ul{list-style:none}blockquote,q{quotes:none}blockquote:after,blockquote:before,q:after,q:before{content:'';content:none}a{margin:0;font-size:100%;vertical-align:baseline;background:0 0}ins{text-decoration:none}mark{font-style:italic;font-weight:700}del{text-decoration:line-through}abbr[title],dfn[title]{border-bottom:1px dotted;cursor:help}table{border-collapse:collapse;border-spacing:0}hr{height:1px;border:0;border-top:1px solid #ccc;margin:1em 0}input,select{vertical-align:middle}
+
+/* =============================================================== *\ 
+ 	 Fonts 
+\* =============================================================== */ 
 /*
-FARBEN
-gruen = rgb(60,70,95);
-gelb = rgb(255,220,0);
-*/
+@font-face {
+    font-family: 'Marat Sans';
+    src: url('webfonts/MaratSans-Thin.eot');
+    src: url('webfonts/MaratSans-Thin.eot?#iefix') format('embedded-opentype'),
+        url('webfonts/MaratSans-Thin.woff2') format('woff2'),
+        url('webfonts/MaratSans-Thin.woff') format('woff');
+    font-weight: 100;
+    font-style: normal;
+    font-display: swap;
+    }
+*/	
 
+/* =============================================================== *\ 
+ 	 General 
+\* =============================================================== */ 
+	
 body{
 	background: grey;
-}
-#content_container{
-	opacity: 0;
-}
+	}
+	
+img{
+    display: block;
+    height: auto;
+    }
+
+/* =============================================================== *\ 
+ 	 Main-Elements 
+\* =============================================================== */ 	
+
+/* =============================================================== *\ 
+ 	 Menus 
+\* =============================================================== */ 
+
+/* =============================================================== *\ 
+ 	 Buttons + Isotope Filters
+\* =============================================================== */ 
+
+/* =============================================================== *\ 
+ 	 Masonry 
+\* =============================================================== */ 
+
+/* =============================================================== *\ 
+ 	 Social Media
+\* =============================================================== */ 
+
+/* =============================================================== *\ 
+ 	 Custom Blocks 
+\* =============================================================== */ 
+  
+/* =============================================================== *\ 
+ 	 Page default 
+\* =============================================================== */ 
+  
+/* =============================================================== *\ 
+ 	 Page Home 
+\* =============================================================== */ 
+  
+/* =============================================================== *\ 
+ 	 Archive default 
+\* =============================================================== */ 
+  
+/* =============================================================== *\ 
+ 	 Single default 
+\* =============================================================== */ 
+
+/* =============================================================== *\ 
+ 	 Imprint + Privacy Policy
+\* =============================================================== */ 
+  
+/* =============================================================== *\ 
+ 	 Post-Edit-Link 
+\* =============================================================== */ 
+.post-edit-link{
+    }
+	
+/* =============================================================== *\ 
+	Media-Queries 
+\* =============================================================== */ 
+@media screen and (max-width: 1000px){	
+}    

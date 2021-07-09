@@ -45,16 +45,11 @@ function cedaro_dequeue_jquery_migrate( $scripts ) {
 
 
 /* ============================================ *\
-
     CSS
-
 \* ============================================ */
 
 function theme_styles() {
     //wp_register_style( $handle, $src, $deps, $ver, $media );
-
-    //wp_register_style('reset', get_stylesheet_directory_uri() . '/reset.css', array(), '1.0', 'all');
-    //wp_enqueue_style('reset');
 
     wp_register_style('main',  get_stylesheet_directory_uri() . "/style.css?" . date("h:i:s"), array(), '1.0', 'all');
     wp_enqueue_style('main');
@@ -66,9 +61,9 @@ function theme_styles() {
 	wp_register_style('adobe_fonts', 'https://use.typekit.net/owr0crc.css', array(), '1.0', 'all');
 	wp_enqueue_style('adobe_fonts');
 
-
 	wp_register_style('slick',  get_stylesheet_directory_uri() . '/js/slick.css', array(), '1.0', 'all');
 	wp_enqueue_style('slick');
+	
 	wp_register_style('slick-lightbox', get_stylesheet_directory_uri() . '/js/slick-lightbox.css', array(), '1.0', 'all');
 	wp_enqueue_style('slick-lightbox');
 
@@ -82,14 +77,11 @@ add_action('wp_enqueue_scripts', 'theme_styles');
 function add_admin_styles() {
    wp_enqueue_style('admin-styles', get_template_directory_uri().'/style-admin.css');
 }
-
 add_action('admin_enqueue_scripts', 'add_admin_styles');
+
 /* ============================================ *\
-
     Include eigene Javascripte
-
 \* ============================================ */
-
 function fuege_javascripts_ein() {
 	//$url_h1 = get_stylesheet_directory_uri().'/js/slick.min.js';
 	//$url_h2 = get_stylesheet_directory_uri().'/js/slick-lightbox.js';
@@ -111,12 +103,8 @@ function enqueue_comment_reply_script() {
 	}
 }
 
-
-
 /* ============================================ *\
-
 	Theme Support
-
 \* ============================================ */
 /*Title*/
 add_filter( 'document_title_separator', 'document_title_separator' );
@@ -137,8 +125,7 @@ function mytitle( $title ) {
 //entfernt die automatischen <p>-Auszeichnungen
 //remove_filter ('the_content', 'wpautop');
 
-add_action( 'after_setup_theme', 'ulrich_digital_setup' );
-
+/* Diverses */
 function ulrich_digital_setup(){
     add_theme_support( 'title-tag' );
     add_theme_support( 'automatic-feed-links' );
@@ -153,8 +140,9 @@ function ulrich_digital_setup(){
 	    )
     );
 }
+add_action( 'after_setup_theme', 'ulrich_digital_setup' );
 
-add_action( 'widgets_init', 'ulrichdigital_blank_widgets_init' );
+/* Widgets */
 function ulrichdigital_blank_widgets_init() {
 	register_sidebar( array (
 		'name' => __( 'Sidebar Widget Area', 'ulrich_digital_blank' ),
@@ -165,19 +153,12 @@ function ulrichdigital_blank_widgets_init() {
 		'after_title' => '</h3>',
 	) );
 }
+add_action( 'widgets_init', 'ulrichdigital_blank_widgets_init' );
 
-/* ACF Options Page*/
-if( function_exists('acf_add_options_page') ) {
-		acf_add_options_page();
-}
 
 /*===============================================================*\
-
-	Eigene Bildgroesse
-
+  Eigene Bildgrössen
 \*===============================================================*/
-
-//add_action('after_setup_theme', 'eigene_bildgroessen', 11);
 function eigene_bildgroessen() {
 	add_image_size('facebook_share', 1200, 630, true);
 	add_image_size('startseiten_slider', 2000, 1125, true);
@@ -185,22 +166,20 @@ function eigene_bildgroessen() {
 	add_image_size('galerie_thumb', 700, 700, true);
 	}
 
+//add_action('after_setup_theme', 'eigene_bildgroessen', 11);
+
 //Bildgroessen zur Auswahl hinzufuegen
-//add_filter('image_size_names_choose', 'bildgroessen_auswaehlen');
 function bildgroessen_auswaehlen($sizes) {
 	$custom_sizes = array('facebook_share' => 'Facebook-Vorschaubild');
 	return array_merge($sizes, $custom_sizes);
 	}
 
-
+//add_filter('image_size_names_choose', 'bildgroessen_auswaehlen');
 
 
 /*===============================================================*\
-
     SVG erlauben
-
 \*===============================================================*/
-
 function add_svg_to_upload_mimes($upload_mimes)
 	{
 	$upload_mimes['svg'] = 'image/svg+xml';
@@ -210,12 +189,17 @@ function add_svg_to_upload_mimes($upload_mimes)
 add_filter('upload_mimes', 'add_svg_to_upload_mimes');
 
 
+/* =============================================================== *\ 
+ 	 ACF 
+\* =============================================================== */ 
+/* ACF Options Page*/
+if( function_exists('acf_add_options_page') ) {
+	acf_add_options_page();
+}
 
 
 /*===============================================================*\
-
     Custom Admin-Logo
-
 \*===============================================================*/
 
 function my_login_logo() { ?>
@@ -225,20 +209,15 @@ function my_login_logo() { ?>
             padding-bottom: 60px;
             width:320px;
             background-repeat: no-repeat;
- background-size: 250px auto;
-
+ 			background-size: 250px auto;
         }
     </style>
 <?php }
 add_action( 'login_enqueue_scripts', 'my_login_logo' );
 
 
-
-
 /*===============================================================*\
-
     Backend anpassen
-
 \*===============================================================*/
 
 /* Menueelemente aus dem WordPress-Dashboard entfernen */
@@ -295,15 +274,16 @@ function wpse_custom_menu_order( $menu_ord ) {
 //add_filter( 'custom_menu_order', '__return_true' );
 //add_filter( 'menu_order', 'wpse_custom_menu_order', 10, 1 );
 
+/* Entwickelt mit Herz */
 function backend_entwickelt_mit_herz( $text ) {
 	return ('<span style="color:black;">Entwickelt mit </span><span style="color: red;font-size:20px;vertical-align:-3px">&hearts;</span><span style="color:black;"</span><span> von <a href="https://ulrich.digital" target="_blank">ulrich.digital</a></span>' );
 }
 add_filter( 'admin_footer_text', 'backend_entwickelt_mit_herz' );
 
+
 /* ================================================== *\ 
  	 Woocommerce 
 \* ================================================== */ 
-
 /*Woocommerce Unterstützung Backend > WooCommerce > Status deklarieren */
 /*add_action( 'after_setup_theme', 'setup_woocommerce_support' ); 
 function setup_woocommerce_support() { 
@@ -312,16 +292,12 @@ function setup_woocommerce_support() {
 
 */
 /*===============================================================*\
-
 	Contact Form 7
-
 \*===============================================================*/
 
 
 /*===============================================================*\
-
 	Custom Post Types
-
 \*===============================================================*/
 
 /*
