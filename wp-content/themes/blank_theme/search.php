@@ -4,7 +4,7 @@
 	
 	<?php if ( have_posts() ) : ?>
 		<header class="header">
-			<h1 class="entry-title"><?php printf('Suchergebniss e für: %s', get_search_query() ); ?></h1>
+			<h1 class="entry-title"><?php printf('Suchergebnisse für: %s', get_search_query() ); ?></h1>
 		</header>
 	
 		<?php while ( have_posts() ) : ?> 
