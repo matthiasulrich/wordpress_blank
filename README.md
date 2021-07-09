@@ -13,6 +13,6 @@ Entwicklungs-Theme für ulrich.ulrich_digital
 ## Theme Sätze
 Evtl. als Optionen hinterlegen
 
-###search.php
+### search.php
 - Suchergebnisse für
 - Leider nichts gefunden
