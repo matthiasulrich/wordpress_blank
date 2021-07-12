@@ -42,12 +42,25 @@ function cedaro_dequeue_jquery_migrate( $scripts ) {
 	if ( ! is_admin() && ! empty( $scripts->registered['jquery'] ) ) {$jquery_dependencies = $scripts->registered['jquery']->deps;$scripts->registered['jquery']->deps = array_diff( $jquery_dependencies, array( 'jquery-migrate' ) );}
 }
 
+/* =============================================================== *\ 
+ 	 Admin CSS + Javascripts
+\* =============================================================== */ 
+function add_admin_sripts() {
+	wp_enqueue_media();
+	wp_register_script('my-admin-js', get_stylesheet_directory_uri() . '/js/ulrich_admin.js', array('jquery'));
+	wp_enqueue_script('my-admin-js');
+}
+add_action('admin_enqueue_scripts', 'add_admin_sripts');
+
+function add_admin_styles() {	
+	wp_enqueue_style('admin-styles', get_template_directory_uri().'/style-admin.css');
+}
+add_action('admin_enqueue_scripts', 'add_admin_styles');  
 
 
 /* ============================================ *\
     CSS
 \* ============================================ */
-
 function theme_styles() {
     //wp_register_style( $handle, $src, $deps, $ver, $media );
 
@@ -74,13 +87,8 @@ function theme_styles() {
 add_action('wp_enqueue_scripts', 'theme_styles');
 
 
-function add_admin_styles() {
-   wp_enqueue_style('admin-styles', get_template_directory_uri().'/style-admin.css');
-}
-add_action('admin_enqueue_scripts', 'add_admin_styles');
-
 /* ============================================ *\
-    Include eigene Javascripte
+    Javascripts
 \* ============================================ */
 function fuege_javascripts_ein() {
 	//$url_h1 = get_stylesheet_directory_uri().'/js/slick.min.js';
@@ -96,6 +104,11 @@ function fuege_javascripts_ein() {
 }
 add_action( 'wp_enqueue_scripts', 'fuege_javascripts_ein' );
 
+
+
+
+
+
 add_action( 'comment_form_before', 'enqueue_comment_reply_script' );
 function enqueue_comment_reply_script() {
 	if ( get_option( 'thread_comments' ) ) {
@@ -107,10 +120,12 @@ function enqueue_comment_reply_script() {
 	Theme Support
 \* ============================================ */
 // add the admin options page
-add_action('admin_menu', 'plugin_admin_add_page');
-function plugin_admin_add_page() {
-add_options_page('Custom Plugin Page', 'Custom Plugin Menu', 'manage_options', 'options', 'plugin_options_page');
-}
+
+include('theme_options.php');
+
+
+
+
 
 
 /*Title*/

@@ -1,7 +1,7 @@
 jQuery(document).ready(function ($) {
-document.onreadystatechange = function () {
+/*document.onreadystatechange = function () {
 if (document.readyState === 'complete') {
-
+*/
 
 /* ============================================ *\
 
@@ -22,7 +22,8 @@ $("#content_container").animate({
 
 
 
-
+/*
 }//readyState
 }//onreadystatechange
+*/
 });//ready beenden
