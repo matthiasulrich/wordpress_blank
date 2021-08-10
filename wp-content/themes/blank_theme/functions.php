@@ -123,7 +123,8 @@ function enqueue_comment_reply_script() {
 
 include('theme_options.php');
 
-
+/* Load More Button in Media-Library ausschalten*/
+add_filter( 'media_library_infinite_scrolling', '__return_true' );
 
 
 
