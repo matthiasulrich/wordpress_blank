@@ -148,7 +148,7 @@ function mytitle( $title ) {
 //entfernt die automatischen <p>-Auszeichnungen
 //remove_filter ('the_content', 'wpautop');
 
-/* Diverses */
+/* Footer Menü 
 function ulrich_digital_setup(){
     add_theme_support( 'title-tag' );
     add_theme_support( 'automatic-feed-links' );
@@ -164,8 +164,9 @@ function ulrich_digital_setup(){
     );
 }
 add_action( 'after_setup_theme', 'ulrich_digital_setup' );
+*/
 
-/* Widgets */
+/* Widgets 
 function ulrichdigital_blank_widgets_init() {
 	register_sidebar( array (
 		'name' => __( 'Sidebar Widget Area', 'ulrich_digital_blank' ),
@@ -177,7 +178,21 @@ function ulrichdigital_blank_widgets_init() {
 	) );
 }
 add_action( 'widgets_init', 'ulrichdigital_blank_widgets_init' );
+*/
 
+/* only footer widget instead */
+function ulrichdigital_blank_widgets_init() {
+    register_sidebar( array(
+      'name'          => __( 'Footer Widgets', 'ulrich_digital_blank' ),
+      'id'            => 'sidebar-2',
+      'description'   => __( 'Add widgets here to appear in your footer area.', 'ulrich_digital_blank' ),
+      'before_widget' => '<aside id="%1$s" class="widget %2$s">',
+      'after_widget'  => '</aside>',
+      'before_title'  => '<h2 class="widget-title">',
+      'after_title'   => '</h2>',
+    ) );
+}
+add_action( 'widgets_init', 'ulrichdigital_blank_widgets_init' );
 
 /*===============================================================*\
   Eigene Bildgrössen
