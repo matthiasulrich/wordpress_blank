@@ -123,6 +123,9 @@ function enqueue_comment_reply_script() {
 
 include('theme_options.php');
 
+// Remove unnecessary type attripute from javascript files
+add_action('after_setup_theme', function() { add_theme_support( 'html5', [ 'script', 'style' ] );});
+
 /* Load More Button in Media-Library ausschalten*/
 add_filter( 'media_library_infinite_scrolling', '__return_true' );
 
