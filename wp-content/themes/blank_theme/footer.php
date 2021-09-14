@@ -1,7 +1,7 @@
 <div class="clear"></div>
 </div>
 
-<footer id="footer" role="contentinfo">
+<footer id="footer">
 	<div class="footer_menu_1"><?php wp_nav_menu(array( 'theme_location' => 'footer_menu_1' )); ?></div>
 	<div class="footer_menu_2"><?php wp_nav_menu(array( 'theme_location' => 'footer_menu_2' )); ?></div>
 </footer>
