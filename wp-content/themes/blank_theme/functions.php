@@ -323,6 +323,46 @@ function backend_entwickelt_mit_herz( $text ) {
 
 
 
+
+/* =============================================================== *\ 
+   Custom-Post-Types 
+\* =============================================================== */ 
+//add_action('init','ab_register_post_type_touren');
+function ab_register_post_type_touren(){
+	$supports = array('title', 'editor', 'thumbnail','post-thumbnails', 'custom-fields', 'revisions');
+	$labels = array(
+		'menu_name' => 'Touren',
+	    'name' => 'Touren',
+	    'singular_name' => 'Touren',
+	    'add_new' => 'Tour hinzuf&uuml;gen',
+	    'add_new_item' => 'Neue Tour hinzuf&uuml;gen',
+	    'edit_item' => 'Tour bearbeiten',
+	    'new_item' => 'Neue Tour',
+	    'view_item' => 'Tour anzeigen',
+	    'search_items' => 'Tour suchen',
+	    'not_found' => 'Keibe Tour gefunden',
+	    'not_found_in_trash' => 'Keine Tour im Papierkorb',
+		);
+	$touren_args = array(
+	    'supports' => $supports,
+	    'labels' => $labels,
+	    'description' => 'Post-Type f&uuml;r Touren',
+	    'public' => true,
+	    'show_in_nav_menus' => true,
+	    'show_in_menu' => true,
+		'show_in_rest' => true,
+	    'has_archive' => true,
+	    'query_var' => true,
+		'menu_icon' => 'dashicons-hammer',
+	    'taxonomies' => array('topics', 'category'),
+	    'rewrite' => array(
+	        'slug' => 'touren',
+	        'with_front' => true
+	   		),
+		);
+	register_post_type('touren', $touren_args);
+}
+
 /* =============================================================== *\ 
 
  	 Customized Plugins
@@ -394,21 +434,23 @@ function my_acf_init_block_types() {
     }
 }
 
-
 /* =============================================================== *\ 
    Block-Template: Tourenportal 
    @link https://developer.wordpress.org/block-editor/developers/block-api/block-templates/
 \* =============================================================== */ 
-/*function block_template_tourenportal() {
+function block_template_tourenportal() {
    $page_type_object = get_post_type_object( 'touren' );
    $page_type_object->template = [
 	   //[ 'core/group', [], [
 		   [ 'acf/tourdatum'],
 		   [ 'acf/touren-kurzinfo'],
 		   [ 'acf/touren-details'],
+		   
+		   /*[ 'core/paragraph',['placeholder' => 'test'] ],*/
+	   //] ],
    ];
 }
-add_action( 'init', 'block_template_tourenportal' );
+//add_action( 'init', 'block_template_tourenportal' );
 
 /* =============================================================== *\ 
    Woocommerce 
@@ -428,42 +470,6 @@ function setup_woocommerce_support() {
 	
 \* =============================================================== */ 
   
-/* Custom Post Types */
-//add_action('init','ab_register_post_type_touren');
-function ab_register_post_type_touren(){
-	$supports = array('title', 'editor', 'thumbnail','post-thumbnails', 'custom-fields', 'revisions');
-	$labels = array(
-		'menu_name' => 'Touren',
-	    'name' => 'Touren',
-	    'singular_name' => 'Touren',
-	    'add_new' => 'Tour hinzuf&uuml;gen',
-	    'add_new_item' => 'Neue Tour hinzuf&uuml;gen',
-	    'edit_item' => 'Tour bearbeiten',
-	    'new_item' => 'Neue Tour',
-	    'view_item' => 'Tour anzeigen',
-	    'search_items' => 'Tour suchen',
-	    'not_found' => 'Keibe Tour gefunden',
-	    'not_found_in_trash' => 'Keine Tour im Papierkorb',
-		);
-	$touren_args = array(
-	    'supports' => $supports,
-	    'labels' => $labels,
-	    'description' => 'Post-Type f&uuml;r Touren',
-	    'public' => true,
-	    'show_in_nav_menus' => true,
-	    'show_in_menu' => true,
-		'show_in_rest' => true,
-	    'has_archive' => true,
-	    'query_var' => true,
-		'menu_icon' => 'dashicons-hammer',
-	    'taxonomies' => array('topics', 'category'),
-	    'rewrite' => array(
-	        'slug' => 'touren',
-	        'with_front' => true
-	   		),
-		);
-	register_post_type('touren', $touren_args);
-}
 
 
 
