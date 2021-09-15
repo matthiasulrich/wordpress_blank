@@ -1,0 +1,672 @@
+{
+    "key": "group_60ec4fea31105",
+    "title": "Touren-Kurzinfo",
+    "fields": [
+        {
+            "key": "field_611b94885a32e",
+            "label": "Bereich",
+            "name": "bereich",
+            "type": "select",
+            "instructions": "",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "Sektion": "Sektion",
+                "JO": "JO",
+                "KiBe": "KiBe",
+                "FaBe": "FaBe",
+                "Veteranen": "Veteranen",
+                "Allgemein": "Allgemein"
+            },
+            "default_value": [],
+            "allow_null": 0,
+            "multiple": 1,
+            "ui": 1,
+            "ajax": 1,
+            "return_format": "value",
+            "placeholder": ""
+        },
+        {
+            "key": "field_60ec4ff5953cd",
+            "label": "Art der Tour",
+            "name": "art_der_tour",
+            "type": "select",
+            "instructions": "",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "bergtour": "Bergtour",
+                "hochtour": "Hochtour",
+                "klettern": "Klettern",
+                "klettersteig": "Klettersteig",
+                "skitour": "Skitour",
+                "schneeschuhtour": "Schneeschuhtour",
+                "bike": "Bike"
+            },
+            "default_value": "bergtour",
+            "allow_null": 0,
+            "multiple": 0,
+            "ui": 1,
+            "ajax": 0,
+            "return_format": "value",
+            "placeholder": ""
+        },
+        {
+            "key": "field_60ec5021953ce",
+            "label": "Schwierigkeit Berg- und Alpinwandern",
+            "name": "skala_berg-_und_alpinwandern",
+            "type": "select",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_60ec4ff5953cd",
+                        "operator": "==",
+                        "value": "bergtour"
+                    }
+                ],
+                [
+                    {
+                        "field": "field_60ec4ff5953cd",
+                        "operator": "==",
+                        "value": "hochtour"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "25",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "t1": "T1",
+                "t2": "T2",
+                "t3": "T3",
+                "t4": "T4",
+                "t5": "T5",
+                "t6": "T6"
+            },
+            "default_value": false,
+            "allow_null": 1,
+            "multiple": 0,
+            "ui": 1,
+            "ajax": 0,
+            "return_format": "array",
+            "placeholder": ""
+        },
+        {
+            "key": "field_6123b0975e1ea",
+            "label": "Schwierigkeit Berg- und Hochtouren",
+            "name": "skala_berg-_und_hochtouren",
+            "type": "select",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_60ec4ff5953cd",
+                        "operator": "==",
+                        "value": "hochtour"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "25",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "l": "L",
+                "ws_minus": "WS-",
+                "ws": "WS",
+                "ws_plus": "WS+",
+                "zs_minus": "ZS-",
+                "zs": "ZS",
+                "zs_plus": "ZS+",
+                "s_minus": "S-",
+                "s": "S",
+                "s_plus": "S+",
+                "ss_minus": "SS-",
+                "ss": "SS",
+                "ss_plus": "SS+",
+                "as": "AS",
+                "ex": "EX"
+            },
+            "default_value": false,
+            "allow_null": 1,
+            "multiple": 0,
+            "ui": 1,
+            "ajax": 0,
+            "return_format": "array",
+            "placeholder": ""
+        },
+        {
+            "key": "field_60ec5060953cf",
+            "label": "Schwierigkeit Skitour",
+            "name": "skala_skitour",
+            "type": "select",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_60ec4ff5953cd",
+                        "operator": "==",
+                        "value": "skitour"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "25",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "l": "L",
+                "l_plus": "L+",
+                "ws_minus": "WS-",
+                "ws": "WS",
+                "ws_plus": "WS+",
+                "zs_minus": "ZS-",
+                "zs": "ZS",
+                "zs_plus": "ZS+",
+                "s_minus": "S-",
+                "s": "S",
+                "s_plus": "S+",
+                "ss_minus": "SS-",
+                "ss": "SS",
+                "ss_plus": "SS+",
+                "as_minus": "AS-",
+                "as": "AS",
+                "as_plus": "AS+",
+                "ex": "EX"
+            },
+            "default_value": false,
+            "allow_null": 1,
+            "multiple": 0,
+            "ui": 1,
+            "ajax": 0,
+            "return_format": "array",
+            "placeholder": ""
+        },
+        {
+            "key": "field_6123b8c991347",
+            "label": "Schwierigkeit Schneeschuhtouren",
+            "name": "skala_schneeschuhtouren",
+            "type": "select",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_60ec4ff5953cd",
+                        "operator": "==",
+                        "value": "schneeschuh"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "25",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "wt1": "WT1",
+                "wt2": "WT2",
+                "wt3": "WT3",
+                "wt4": "WT4",
+                "wt5": "WT5",
+                "wt6": "WT6"
+            },
+            "default_value": false,
+            "allow_null": 1,
+            "multiple": 0,
+            "ui": 1,
+            "ajax": 0,
+            "return_format": "array",
+            "placeholder": ""
+        },
+        {
+            "key": "field_6124a2813a828",
+            "label": "Schwierigkeit Biken",
+            "name": "skala_bike",
+            "type": "select",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_60ec4ff5953cd",
+                        "operator": "==",
+                        "value": "bike"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "25",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "s1": "S1",
+                "s2": "S2",
+                "s3": "S3",
+                "s4": "S4",
+                "s5": "S5"
+            },
+            "default_value": false,
+            "allow_null": 1,
+            "multiple": 0,
+            "ui": 1,
+            "ajax": 0,
+            "return_format": "array",
+            "placeholder": ""
+        },
+        {
+            "key": "field_6123b1d2730ed",
+            "label": "Schwierigkeit Klettern (UIAA)",
+            "name": "skala_klettern_uiaa",
+            "type": "select",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_60ec4ff5953cd",
+                        "operator": "!=",
+                        "value": "bike"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "25",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "i": "I",
+                "ii": "II",
+                "iii": "III",
+                "iii_plus": "III+",
+                "iv_minus": "IV-",
+                "iv": "IV",
+                "iv_plus": "IV+",
+                "v_minus": "V-",
+                "v": "V",
+                "v_plus": "V+",
+                "vi_minus": "VI-",
+                "vi": "VI",
+                "vi_plus": "VI+",
+                "vii_minus": "VII-",
+                "vii": "VII",
+                "vii_plus": "VII+",
+                "viii_minus": "VIII-",
+                "viii": "VIII",
+                "viii_plus": "VIII+",
+                "ix_minus": "IX-",
+                "ix": "IX",
+                "ix_plus": "IX+",
+                "x_minus": "X-",
+                "x": "X",
+                "x_plus": "X+",
+                "xi_minus": "XI-",
+                "xi": "XI"
+            },
+            "default_value": false,
+            "allow_null": 1,
+            "multiple": 0,
+            "ui": 1,
+            "ajax": 0,
+            "return_format": "array",
+            "placeholder": ""
+        },
+        {
+            "key": "field_6123b4d0d881a",
+            "label": "Schwierigkeit Klettern (Französisch)",
+            "name": "skala_klettern_franzosisch",
+            "type": "select",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_60ec4ff5953cd",
+                        "operator": "!=",
+                        "value": "bike"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "25",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "3a": "3a",
+                "3b": "3b",
+                "3c": "3c",
+                "4a": "4a",
+                "4b": "4b",
+                "4c": "4c",
+                "5a": "5a",
+                "5a_plus": "5a+",
+                "5b": "5b",
+                "5b_plus": "5b+",
+                "5c": "5c",
+                "5c_plus": "5c+",
+                "6a": "6a",
+                "6a_plus": "6a+",
+                "6b": "6b",
+                "6b_plus": "6b+",
+                "6c": "6c",
+                "6c_plus": "6c+",
+                "7a": "7a",
+                "7a_plus": "7a+",
+                "7b": "7b",
+                "7b_plus": "7b+",
+                "7c": "7c",
+                "7c_plus": "7c+",
+                "8a": "8a",
+                "8a_plus": "8a+",
+                "8b": "8b",
+                "8b_plus": "8b+",
+                "8c": "8c",
+                "8c_plus": "8c+",
+                "9a": "9a"
+            },
+            "default_value": false,
+            "allow_null": 1,
+            "multiple": 0,
+            "ui": 1,
+            "ajax": 0,
+            "return_format": "array",
+            "placeholder": ""
+        },
+        {
+            "key": "field_60ec5a938afdd",
+            "label": "Zeitbedarf gesamte Tour",
+            "name": "zeitbedarf_gesamte_tour",
+            "type": "number",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "20",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "5.5",
+            "prepend": "",
+            "append": "h",
+            "min": "",
+            "max": "",
+            "step": "0.25"
+        },
+        {
+            "key": "field_60ec5acd06f33",
+            "label": "Zeitbedarf im Aufstieg",
+            "name": "zeitbedarf_aufstieg",
+            "type": "number",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "20",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "3.5",
+            "prepend": "",
+            "append": "h",
+            "min": "",
+            "max": "",
+            "step": "0.25"
+        },
+        {
+            "key": "field_60ec5aea06f34",
+            "label": "Höhenmeter im Aufstieg",
+            "name": "hohenmeter_aufstieg",
+            "type": "number",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "20",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": 780,
+            "prepend": "",
+            "append": "hm",
+            "min": "",
+            "max": "",
+            "step": 1
+        },
+        {
+            "key": "field_611398dab12fe",
+            "label": "Zeitbedarf im Abstieg",
+            "name": "zeitbedarf_abstieg",
+            "type": "number",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "20",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "3.5",
+            "prepend": "",
+            "append": "h",
+            "min": "",
+            "max": "",
+            "step": "0.25"
+        },
+        {
+            "key": "field_6113991ab12ff",
+            "label": "Höhenmeter im Abstieg",
+            "name": "hohenmeter_abstieg",
+            "type": "number",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "20",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": 780,
+            "prepend": "",
+            "append": "hm",
+            "min": "",
+            "max": "",
+            "step": 1
+        },
+        {
+            "key": "field_611382cfd0061",
+            "label": "Dauer und Höhenmeter",
+            "name": "dauer_und_hohenmeter_rep",
+            "type": "repeater",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_60ec4ff5953cd",
+                        "operator": "!=empty"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "collapsed": "",
+            "min": 1,
+            "max": 0,
+            "layout": "block",
+            "button_label": "",
+            "sub_fields": [
+                {
+                    "key": "field_611383bad0067",
+                    "label": "Label (optional)",
+                    "name": "label",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "50",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "Samstag",
+                    "prepend": "",
+                    "append": "",
+                    "maxlength": ""
+                },
+                {
+                    "key": "field_611382dbd0062",
+                    "label": "Zeitbedarf gesamt",
+                    "name": "zeitbedarf_gesamt",
+                    "type": "number",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "50",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "h",
+                    "min": "",
+                    "max": "",
+                    "step": ""
+                },
+                {
+                    "key": "field_61138312d0065",
+                    "label": "Zeitbedarf im Aufstieg",
+                    "name": "zeitbedarf_im_aufstieg",
+                    "type": "number",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "25",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "h",
+                    "min": "",
+                    "max": "",
+                    "step": ""
+                },
+                {
+                    "key": "field_611382e8d0063",
+                    "label": "Höhenmeter im Aufstieg",
+                    "name": "hohenmeter_im_aufstieg",
+                    "type": "number",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "25",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "hm",
+                    "min": "",
+                    "max": "",
+                    "step": ""
+                },
+                {
+                    "key": "field_6113831ed0066",
+                    "label": "Zeitbedarf im Abstieg",
+                    "name": "zeitbedarf_im_abstieg",
+                    "type": "number",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "25",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "h",
+                    "min": "",
+                    "max": "",
+                    "step": ""
+                },
+                {
+                    "key": "field_611382f1d0064",
+                    "label": "Höhenmeter im Abstieg",
+                    "name": "hohenmeter_im_abstieg",
+                    "type": "number",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "25",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "hm",
+                    "min": "",
+                    "max": "",
+                    "step": ""
+                }
+            ]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "block",
+                "operator": "==",
+                "value": "acf\/touren-kurzinfo"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "modified": 1629790942
+}

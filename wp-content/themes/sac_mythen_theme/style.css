@@ -1,0 +1,1016 @@
+/*
+Theme Name: SAC Sektion Mythen Theme
+Author: ulrich.digital
+Author URI: https://ulrich.digital
+Version: 2021.8
+License: GNU General Public License
+License URI: https://www.gnu.org/licenses/gpl.html
+Description: Wordpress Theme für den SAC Sektion Mythen
+Text Domain: ulrich_digital_blank
+* Domain Path: /languages
+*/
+
+/* CSS  Reset  */
+article,aside,details,figcaption,figure,footer,header,hgroup,hr,menu,nav,section{display:block}a,hr{padding:0}abbr,address,article,aside,audio,b,blockquote,body,canvas,caption,cite,code,dd,del,details,dfn,div,dl,dt,em,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,header,hgroup,html,i,iframe,img,ins,kbd,label,legend,li,mark,menu,nav,object,ol,p,pre,q,samp,section,small,span,strong,sub,summary,sup,table,tbody,td,tfoot,th,thead,time,tr,ul,var,video{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:0 0}ins,mark{background-color:#ff9;color:#000}body{line-height:1}nav ul{list-style:none}blockquote,q{quotes:none}blockquote:after,blockquote:before,q:after,q:before{content:'';content:none}a{margin:0;font-size:100%;vertical-align:baseline;background:0 0}ins{text-decoration:none}mark{font-style:italic;font-weight:700}del{text-decoration:line-through}abbr[title],dfn[title]{border-bottom:1px dotted;cursor:help}table{border-collapse:collapse;border-spacing:0}hr{height:1px;border:0;border-top:1px solid #ccc;margin:1em 0}input,select{vertical-align:middle}
+
+
+/* =============================================================== *\ 
+ 	 Fonts 
+\* =============================================================== */ 
+@font-face{
+    font-family: 'Roboto';
+    src: url('webfonts/Roboto-Bold.eot');
+    src: url('webfonts/Roboto-Bold.eot?#iefix') format('embedded-opentype'),
+        url('webfonts/Roboto-Bold.woff2') format('woff2'),
+        url('webfonts/Roboto-Bold.woff') format('woff'),
+        url('webfonts/Roboto-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+    }
+
+@font-face{
+    font-family: 'Roboto';
+    src: url('webfonts/Roboto-Regular.eot');
+    src: url('webfonts/Roboto-Regular.eot?#iefix') format('embedded-opentype'),
+        url('webfonts/Roboto-Regular.woff2') format('woff2'),
+        url('webfonts/Roboto-Regular.woff') format('woff'),
+        url('webfonts/Roboto-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+    }
+
+@font-face{
+    font-family: 'Roboto';
+    src: url('webfonts/Roboto-Italic.eot');
+    src: url('webfonts/Roboto-Italic.eot?#iefix') format('embedded-opentype'),
+        url('webfonts/Roboto-Italic.woff2') format('woff2'),
+        url('webfonts/Roboto-Italic.woff') format('woff'),
+        url('webfonts/Roboto-Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+    }
+
+@font-face{
+    font-family: 'Roboto';
+    src: url('webfonts/Roboto-Black.eot');
+    src: url('webfonts/Roboto-Black.eot?#iefix') format('embedded-opentype'),
+        url('webfonts/Roboto-Black.woff2') format('woff2'),
+        url('webfonts/Roboto-Black.woff') format('woff'),
+        url('webfonts/Roboto-Black.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+    }
+
+@font-face{
+    font-family: 'Frutiger LT Std';
+    src: url('webfonts/FrutigerLTStd-Black.eot');
+    src: /*url('webfonts/FrutigerLTStd-Black.eot?#iefix') format('embedded-opentype'),*/
+        url('webfonts/FrutigerLTStd-Black.woff2') format('woff2'),
+        url('webfonts/FrutigerLTStd-Black.woff') format('woff'),
+        url('webfonts/FrutigerLTStd-Black.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+    }
+
+body, 
+button{
+	font-family: 'Roboto';
+	}
+
+h1, h2, h3, .entry-title{
+	font-family: 'Frutiger LT Std';
+	font-size: 29px;
+	letter-spacing: 1px;
+	}
+
+article{
+	font-size: 15px;
+	}
+
+h1, 
+article .entry-title a{
+	font-size: 26px;
+    line-height: 1.25em;
+    }
+    
+.single h1{
+    font-size: 30px;
+    }
+    
+.single h2{
+    font-size: 26px;
+    }
+    
+button.chip, 
+.chip{
+    font-size: 15px;	
+    font-weight: bold;
+	letter-spacing: 1px;
+	line-height: 1em;
+    }
+ 
+	
+/* =============================================================== *\ 
+ 	 Variables 
+\* =============================================================== */ 
+:root{
+    --black: #000000;
+    --white: #ffffff;
+    
+    --body_bg: #eeeeee;
+    
+    --sektion_bg: #F0D2CB;
+    --sektion_color: #CB664E;
+
+    --veteranen_bg : #CCE6D1;
+    --veteranen_color : #5EAC6D;
+
+    --jo_bg: #D1D6EB;
+    --jo_color: #6573BC;
+
+    --kibe_bg: #ECEF9E;
+    --kibe_color: #C9D00D;
+
+    --fabe_bg: #EDCDEB;
+    --fabe_color: #C378BD;
+
+    --allgemein_bg: #D4EEF0;
+    --allgemein_color: #6EC1C7;
+
+    --light_grey_bg : #e6e6e6;
+    --middle_grey_bg : #d2d2d2;
+    --dark_grey_bg : #c0c0c0;
+
+    --icon_bg:#292929;
+    
+    --alertRed: #e9605a;
+    
+    --alertGreen:#42c080;
+    --alertGreenHover: #52d090;
+    
+    --boxShadow: 2px 2px 4px #0000001c;
+    
+    --hoverTrans: 0.2s all;
+	}
+
+
+/* =============================================================== *\ 
+ 	 General 
+\* =============================================================== */ 
+html{
+    overflow-x: hidden;
+}
+*{
+    box-sizing: border-box;
+} 
+
+a{
+    color:var(--black);
+    text-decoration: none;
+    }   
+    	    	
+img{
+    display: block;
+    height: auto;
+    }
+
+button{
+    border:none;
+    cursor: pointer;
+    }
+    
+       
+/* =============================================================== *\ 
+    Main-Elements 
+\* =============================================================== */ 	
+body{
+    background: var(--body_bg);
+    }
+    
+#header{
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap-reverse;
+    align-items: flex-end;
+    }
+
+#logo{
+	width:200px;
+    height:83px;
+    }
+
+/* =============================================================== *\ 
+ 	 Hauptmenu 
+\* =============================================================== */ 
+#menu{
+    z-index: 2;
+    display: flex;
+    align-items: flex-start;
+    transition: 0.2s all;
+    }
+    
+#menu.out{
+    transform:matrix(1,0,0,1,-500,0);
+    }
+    
+#menu.out .main_menu_container{
+    transition: 0.2s all;
+    opacity: 0;
+    }
+    
+#menu-main-menu{
+    margin: 0 0px 0 0;
+    background: var(--white);
+    padding: 10px;
+    box-shadow: var(--boxShadow);
+    border-bottom-right-radius: 5px;
+    }
+#menu-main-menu li{
+    line-height: 2em;
+}    
+#menu-main-menu a{
+    text-transform: uppercase;
+    color: inherit;
+    text-decoration: none;
+    letter-spacing: 1px;
+    background: var(--white);
+    padding: 5px;
+    border-radius: 5px;
+    transition: var(--hoverTrans);
+    }  
+#menu-main-menu a:hover{
+    background: var(--light_grey_bg);
+}
+#menu-main-menu a[aria-current] {
+    background:var(--alertRed);
+    color:var(--white);
+ }
+
+/* =============================================================== *\ 
+ 	 Hamburger-Icon
+\* =============================================================== */ 
+/*
+ * @description Tasty CSS-animated hamburgers
+ * @author Jonathan Suh @jonsuh
+ * @site https://jonsuh.com/hamburgers
+ * @link https://github.com/jonsuh/hamburgers
+ */
+
+.hamburger{
+    padding: 15px 15px;
+    display: inline-block;
+    cursor: pointer;
+    transition-property: opacity, filter;
+    transition-duration: 0.15s;
+    transition-timing-function: linear;
+    font: inherit;
+    color: inherit;
+    text-transform: none;
+    background-color: transparent;
+    border: 0;
+    margin: 0;
+    overflow: visible; 
+    background: var(--body_bg);
+    }
+
+.hamburger:hover{
+    }
+.hamburger.is-active{
+}    
+.hamburger.is-active:hover{
+    }
+    
+.hamburger.is-active .hamburger-inner,
+.hamburger.is-active .hamburger-inner::before,
+.hamburger.is-active .hamburger-inner::after{
+    background-color: var(--black); 
+    }
+
+.hamburger-box{
+    width: 40px;
+    height: 24px;
+    display: inline-block;
+    position: relative; 
+    }
+
+.hamburger-inner{
+    display: block;
+    top: 50%;
+    margin-top: -2px; 
+    }
+    
+.hamburger-inner, 
+.hamburger-inner::before, 
+.hamburger-inner::after{
+    width: 40px;
+    height: 4px;
+    background-color: var(--black);
+    border-radius: 4px;
+    position: absolute;
+    transition-property: transform;
+    transition-duration: 0.15s;
+    transition-timing-function: ease; 
+    }
+    
+.hamburger-inner::before, .hamburger-inner::after{
+    content: "";
+    display: block; 
+    }
+
+.hamburger-inner::before{
+    top: -10px; 
+    }
+
+.hamburger-inner::after{
+    bottom: -10px; 
+    }
+
+/* Hamburger Collapse  */ 
+.hamburger--collapse .hamburger-inner{
+    top: auto;
+    bottom: 0;
+    transition-duration: 0.13s;
+    transition-delay: 0.13s;
+    transition-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19); 
+    }
+
+.hamburger--collapse .hamburger-inner::after{
+    top: -20px;
+    transition: top 0.2s 0.2s cubic-bezier(0.33333, 0.66667, 0.66667, 1), opacity 0.1s linear; 
+    }
+
+.hamburger--collapse .hamburger-inner::before{
+    transition: top 0.12s 0.2s cubic-bezier(0.33333, 0.66667, 0.66667, 1), transform 0.13s cubic-bezier(0.55, 0.055, 0.675, 0.19); 
+    }
+
+.hamburger--collapse.is-active .hamburger-inner{
+    transform: translate3d(0, -10px, 0) rotate(-45deg);
+    transition-delay: 0.22s;
+    transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1); 
+    }
+    
+.hamburger--collapse.is-active .hamburger-inner::after{
+    top: 0;
+    opacity: 0;
+    transition: top 0.2s cubic-bezier(0.33333, 0, 0.66667, 0.33333), opacity 0.1s 0.22s linear; 
+    }
+    
+.hamburger--collapse.is-active .hamburger-inner::before{
+    top: 0;
+    transform: rotate(-90deg);
+    transition: top 0.1s 0.16s cubic-bezier(0.33333, 0, 0.66667, 0.33333), transform 0.13s 0.25s cubic-bezier(0.215, 0.61, 0.355, 1); 
+    }
+
+
+/* =============================================================== *\ 
+ 	 Breadcrumb-Menu 
+\* =============================================================== */ 
+.breadcrumb_container{
+    position: absolute;
+    width: 100%;
+    }
+
+.breadcrumb{
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 1200px;
+    padding:10px 20px;
+    margin: auto;
+    font-style: italic;
+    }
+    
+.breadcrumb a{
+    text-decoration: none;
+    color: inherit;
+    font-style: italic;
+    font-size: 90%;
+    transition: var(--hoverTrans);
+    }
+
+.breadcrumb i,
+.breadcrumb a,
+.breadcrumb span{
+    opacity: 0.5;       
+    }
+
+.breadcrumb a:hover{
+    opacity: 1;
+    }  
+    
+/* =============================================================== *\ 
+ 	 Masonry 
+\* =============================================================== */ 
+.grid_sizer{
+    width:400px;
+    }  
+    
+    
+/* =============================================================== *\ 
+ 	 Icon Tour-Type 
+\* =============================================================== */ 
+.icon_tour_type{
+    width: 27px;
+    height: 27px;
+    margin-right: 5px;   
+    border: 1px solid;
+    border-radius: 20px;
+    } 
+
+.single .icon_tour_type{
+    filter: drop-shadow(var(--boxShadow));
+    }
+
+.icon_tour_type svg{
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    }
+    
+/* =============================================================== *\ 
+ 	 Chips  
+\* =============================================================== */ 
+.chips_container{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 0 -5px;
+    }
+    
+.chips_container.centered{
+    justify-content: center;
+    }
+    
+.chips_container .chip{
+    margin: 0 5px;
+    }
+    
+.chip{
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 50px;
+    background:var(--white);
+    border:1px solid;
+    }
+        
+.chip.sektion{
+    background: var(--sektion_bg);
+    color: var(--sektion_color);
+    }
+
+.chip.veteranen{
+    background: var(--veteranen_bg);
+    color: var(--veteranen_color);
+    }
+
+.chip.jo{
+    background: var(--jo_bg);
+    color: var(--jo_color);
+    }
+
+.chip.kibe{
+    background: var(--kibe_bg);
+    color: var(--kibe_color);
+    }
+
+.chip.fabe{
+    background: var(--fabe_bg);
+    color: var(--fabe_color);
+    }
+
+.chip.allgemein{
+    background: var(--allgemein_bg);
+    color: var(--allgemein_color);
+    }    
+    
+/* =============================================================== *\ 
+ 	 Rich-Chip 
+\* =============================================================== */ 
+.rich_chip{
+    display: flex;
+    padding: 0;
+    height: 27px;
+    overflow: hidden;
+    box-shadow: var(--boxShadow);
+}
+  
+.rich_chip .svg_container{
+    background: var(--light_grey_bg);
+    height: 27px;
+    min-width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    }
+ 
+.rich_chip .svg_container svg{
+    height: 15px;     
+    width:auto;
+    }
+
+.rich_chip .value{
+    display: flex;
+    align-items: center;
+    padding: 0px 7px 0px 5px;
+    }
+
+
+/* =============================================================== *\ 
+ 	 Chip-Mehrtagig 
+\* =============================================================== */ 
+.is_multiday{
+    align-items: flex-start;
+    }
+    
+.is_multiday_container{
+    margin: 0px 5px;
+    flex-direction: column;
+    }
+    
+.is_multiday_container .chips_container{
+    margin: 0 0 1em 0;
+    }
+
+
+/* =============================================================== *\ 
+ 	 Button-Chip-Menu 
+\* =============================================================== */ 
+button.chip{
+    transition: var(--hoverTrans);
+    border:1px solid transparent;
+    }
+    
+button.chip.is_checked{
+    border: 1px solid;
+    }
+    
+button.chip:hover{
+    border: 1px solid;
+    box-shadow: var(--boxShadow);
+    } 
+
+
+/* =============================================================== *\ 
+     Short-Card Touren 
+\* =============================================================== */ 
+.touren_short_card{
+	background: var(--white);
+    border-radius: 5px;
+    box-shadow: var(--boxShadow);
+    letter-spacing: 0.5px;
+    line-height: 1.5em;
+    }
+
+.touren_short_card .card_header{
+    height:27px;
+    transform: translateY(-0.75em);
+    }
+    
+.touren_short_card .card_main{
+    padding: 0 25px 0;
+    }
+
+.touren_short_card .card_main .date_row{
+    margin-bottom: 0.75em;
+    }
+    
+.touren_short_card .card_main .entry-title{
+    display: flex;
+    height: 60px;
+    margin-bottom: 0.5em;
+    }
+
+.touren_short_card .card_footer{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--light_grey_bg);
+    padding: 15px 25px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    }
+        
+.touren_short_card .card_footer .more_button{
+    text-decoration: none;
+    color: var(--black);
+    text-transform: uppercase;
+    padding: 7px 10px;
+    border-radius: 5px;
+    transition: all 0.3s;
+    }
+    
+.touren_short_card .card_footer .more_button:hover{
+    background: var(--middle_grey_bg);
+    }
+
+.touren_short_card .datum.cancelled.moved{
+    display: none;
+    }
+    
+.touren_short_card .card_main .tourenleiter{
+    margin-bottom: 1em
+    }
+
+
+/* =============================================================== *\ 
+ 	 Cancelled und Moving-Date 
+\* =============================================================== */ 
+.datum.cancelled{
+    font-size: 85%;
+    opacity: 0.4;
+    font-style: italic;
+    }
+
+.datum.cancelled::before{
+    content: "– ";
+    }
+        
+.cancelled.alert,
+.current_moving_date{
+    color: var(--alertRed);
+    }
+
+.verschiebe_daten_container{
+    display: flex;	
+    font-size: 85%;
+    opacity: 0.6;
+    }
+    
+.verschiebe_daten_container ul{
+    display: flex;
+    list-style: none;
+    }
+
+.verschiebe_daten_container ul li{
+    margin-left: 0.5em;
+    }
+ 
+/* =============================================================== *\ 
+ 	 Archive 
+\* =============================================================== */ 
+.archive .header{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 2em auto;
+    } 
+
+/* =============================================================== *\ 
+ 	 Archive-Touren 
+\* =============================================================== */ 
+.post-type-archive-touren #content{
+    width: 1200px;
+    margin: 5em auto;
+    }
+
+.post-type-archive-touren .header{
+    padding-left: 25px;
+    padding-right: 25px;
+    }
+
+.post-type-archive-touren article{
+    padding: 25px;
+    box-sizing: border-box;
+    border:0px solid red;
+    width:400px;
+    }
+
+
+/* =============================================================== *\ 
+ 	 Single-Touren
+\* =============================================================== */ 
+.single-touren #content{
+    max-width: 1200px;
+    margin: auto;
+    line-height: 1.5em;
+    padding: 20px;
+    }
+    
+.tour_header{
+    margin-bottom: 3em;
+    }
+
+.tour_header > div{
+    margin-bottom: 0.5em;    
+    }
+
+.tour_header .sektions_gruppe.chip{
+    justify-content: flex-start;
+    }
+    
+.tour_header .date_row{
+    margin-bottom: 2em;
+    }
+
+.tour_header .leitung{
+    margin-bottom: 2em;
+    }
+
+.tour_header .date_row,
+.tour_header .leitung,
+.tour_body{
+    letter-spacing: 0.5px;
+    }
+
+.single-touren #content .header_image{
+    margin-bottom: 3em;
+    background: var(--white);
+    border-radius: 5px;
+    box-shadow: var(--boxShadow);
+    border:1px solid;
+}
+.single .header_image figure{
+    margin:0;
+}
+.single .header_image figcaption{
+    font-style: italic;
+    font-size: 85%;
+    padding: 10px;
+    margin: 0;
+    text-align: center;
+    }
+    
+.single .header_image img{
+    width: 100%;
+    }
+            
+.touren_details h2{
+    margin-bottom: 0.5em;
+    }
+    
+.details_container{
+    display: flex;
+    }
+    
+.linke_spalte{
+    box-sizing: border-box;
+    flex-grow: 2;
+    flex-shrink: 2;
+    flex-basis: 300px;
+    }
+    
+.rechte_spalte{
+    box-sizing: border-box;
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: 360px;
+    }
+
+.linke_spalte .detail_item{
+    width: calc(100% - 40px);
+    }
+    
+.linke_spalte .detail_item .content{
+    /*width: 100%;*/
+    }
+
+.linke_spalte .detail_item .icon{
+    /*display: none;*/
+    }
+
+.detail_item{
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 1.25em;
+    align-items: center;
+    border-radius: 5px;
+    background: var(--light_grey_bg);
+    box-shadow: var(--boxShadow);
+    overflow: hidden;
+    border:1px solid var(--black);
+    }
+
+.detail_item .content{
+    background: var(--white);
+    padding: 10px;
+    width: calc(100% - 42px);
+    }
+
+.detail_item .icon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: auto;
+    max-width: 22px;
+    max-height: 22px;
+    margin: 0px 10px 0 10px;
+    }
+    
+.detail_item .icon svg{
+    width: 22px;
+    height: auto;
+    max-width: 22px;
+    max-height: 22px;
+    }
+        
+.detail_item.anmeldung_ist_erforderlich{
+    border-color: var(--alertRed);
+    }
+    
+.anmeldung_ist_erforderlich .icon{
+    color: var(--alertRed);
+    }
+    
+.anmeldung_ist_erforderlich .content{
+    background: var(--alertRed);
+    color: var(--white);
+    }
+
+.detail_item ul{
+    list-style: none;
+    }
+    
+.hier_anmelden{
+    border: 1px solid var(--alertGreen);
+    }
+    
+.hier_anmelden .icon{
+    display: none;
+    }
+    
+.hier_anmelden a.content{
+    width:100%;
+    background: var(--alertGreen);
+    color: var(--white);
+    text-transform: uppercase;
+    text-decoration: none;
+    letter-spacing: 1px;
+    text-align: center;
+    transition: all 0.2s;
+    }
+    
+.hier_anmelden a:hover{
+    box-shadow: var(--boxShadow);
+    background-color: var(--alertGreenHover);
+    }
+
+.remaining_content{
+    max-width: 1200px;
+    margin: auto;
+    }
+
+
+/* =============================================================== *\ 
+ 	 Imprint + Privacy Policy
+\* =============================================================== */ 
+  
+/* =============================================================== *\ 
+ 	 Post-Edit-Link 
+\* =============================================================== */ 
+.post-edit-link{
+    }
+
+
+/* =============================================================== *\ 
+ 	 Animate CSS 
+\* =============================================================== */ 
+/*!
+ * animate.css - https://animate.style/
+ * Version - 4.0.0
+ * Licensed under the MIT license - http://opensource.org/licenses/MIT
+ *
+ * Copyright (c) 2020 Animate.css
+ */
+ 
+:root{
+    --animate-duration: 1s;
+    --animate-delay: 1s;
+    --animate-repeat: 1;
+    }
+
+.animated{
+    animation-duration: var(--animate-duration);
+    animation-fill-mode: both;
+    }
+
+.animated.infinite{
+    animation-iteration-count: infinite;
+    }
+
+.animated.repeat-1{
+    animation-iteration-count: var(--animate-repeat);
+    }
+
+.animated.repeat-2{
+    animation-iteration-count: calc(var(--animate-repeat) * 2);
+    }
+
+.animated.repeat-3{
+    animation-iteration-count: calc(var(--animate-repeat) * 3);
+    }
+
+.animated.delay-1s{
+    animation-delay: var(--animate-delay);
+    }
+
+.animated.delay-2s{
+    animation-delay: calc(var(--animate-delay) * 2);
+    }
+
+.animated.delay-3s{
+    animation-delay: calc(var(--animate-delay) * 3);
+    }
+
+.animated.delay-4s{
+    animation-delay: calc(var(--animate-delay) * 4);
+    }
+
+.animated.delay-5s{
+    animation-delay: calc(var(--animate-delay) * 5);
+    }
+
+.animated.faster{
+    animation-duration: calc(var(--animate-duration) / 2);
+    }
+
+.animated.fast{
+    animation-duration: calc(var(--animate-duration) * 0.8);
+    }
+
+.animated.slow{
+    animation-duration: calc(var(--animate-duration) * 2);
+    }
+
+.animated.slower{
+    animation-duration: calc(var(--animate-duration) * 3);
+    }
+
+
+.bounceInLeft{
+    animation-name: bounceInLeft;
+    }
+    
+.bounceOutLeft{
+    animation-name: bounceOutLeft;
+    }
+    
+ @keyframes bounceInLeft{
+    from,
+    60%,
+    75%,
+    90%,
+    to{
+        animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+        }
+
+    0%{
+        opacity: 0;
+        transform: translate3d(-3000px, 0, 0) scaleX(3);
+        }
+
+    60%{
+        opacity: 1;
+        transform: translate3d(25px, 0, 0) scaleX(1);
+        }
+
+    75%{
+        transform: translate3d(-10px, 0, 0) scaleX(0.98);
+        }
+
+    90%{
+        transform: translate3d(5px, 0, 0) scaleX(0.995);
+        }
+
+    to{
+        transform: translate3d(0, 0, 0);
+        }
+    }
+
+@keyframes bounceOutLeft{
+    20%{
+        opacity: 1;
+        transform: translate3d(20px, 0, 0) scaleX(0.9);
+        }
+
+    to{
+        opacity: 0;
+        transform: translate3d(-2000px, 0, 0) scaleX(2);
+        }
+    }
+
+
+    
+/* =============================================================== *\ 
+ 	 Media-Queries 
+\* =============================================================== */ 
+@media screen and (max-width: 1000px){	
+}    
+
+@media print, (prefers-reduced-motion: reduce){
+    .animated{
+        animation-duration: 1ms !important;
+        transition-duration: 1ms !important;
+        animation-iteration-count: 1 !important;
+        }
+
+    .animated[class*='Out']{
+        opacity: 0;
+        }
+    }    

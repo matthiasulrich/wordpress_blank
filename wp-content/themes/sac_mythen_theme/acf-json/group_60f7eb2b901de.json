@@ -1,0 +1,201 @@
+{
+    "key": "group_60f7eb2b901de",
+    "title": "Datum",
+    "fields": [
+        {
+            "key": "field_60f7eb31263f6",
+            "label": "Datum der Tour",
+            "name": "tourdatum",
+            "type": "date_picker",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "40",
+                "class": "",
+                "id": ""
+            },
+            "display_format": "j. F Y",
+            "return_format": "Ymd",
+            "first_day": 1
+        },
+        {
+            "key": "field_60f92163212de",
+            "label": "Mehrtägige Tour",
+            "name": "mehrtagige_tour",
+            "type": "checkbox",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_60f7eb31263f6",
+                        "operator": "!=empty"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "20",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "ja": "Ja"
+            },
+            "allow_custom": 0,
+            "default_value": [],
+            "layout": "vertical",
+            "toggle": 0,
+            "return_format": "array",
+            "save_custom": 0
+        },
+        {
+            "key": "field_60f921ded005f",
+            "label": "Rückreise-Datum",
+            "name": "rueckreise_datum",
+            "type": "date_picker",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "40",
+                "class": "",
+                "id": ""
+            },
+            "display_format": "j. F Y",
+            "return_format": "Ymd",
+            "first_day": 1
+        },
+        {
+            "key": "field_611233335a1e2",
+            "label": "Durchführung",
+            "name": "durchfuhrung",
+            "type": "radio",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_60f7eb31263f6",
+                        "operator": "!=empty"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "tour_findet_statt": "Tour findet statt",
+                "tour_verschieben": "Tour verschieben",
+                "tour_absagen": "Tour absagen"
+            },
+            "allow_null": 0,
+            "other_choice": 0,
+            "default_value": "tour_findet_statt",
+            "layout": "horizontal",
+            "return_format": "array",
+            "save_other_choice": 0
+        },
+        {
+            "key": "field_60f92924a0a29",
+            "label": "Verschiebe-Daten",
+            "name": "verschiebe_daten",
+            "type": "repeater",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_60f7eb31263f6",
+                        "operator": "!=empty"
+                    },
+                    {
+                        "field": "field_611233335a1e2",
+                        "operator": "!=",
+                        "value": "tour_absagen"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "collapsed": "",
+            "min": 0,
+            "max": 0,
+            "layout": "table",
+            "button_label": "Verschiebe-Datum hinzufügen",
+            "sub_fields": [
+                {
+                    "key": "field_60f9295ea0a2b",
+                    "label": "Verschiebe-Datum",
+                    "name": "verschiebe_datum",
+                    "type": "date_picker",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "60",
+                        "class": "",
+                        "id": ""
+                    },
+                    "display_format": "j. F Y",
+                    "return_format": "Ymd",
+                    "first_day": 1
+                },
+                {
+                    "key": "field_61062b09805e2",
+                    "label": "Tour verschieben",
+                    "name": "tour_verschoben_auf",
+                    "type": "checkbox",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": [
+                        [
+                            {
+                                "field": "field_611233335a1e2",
+                                "operator": "==",
+                                "value": "tour_verschieben"
+                            }
+                        ]
+                    ],
+                    "wrapper": {
+                        "width": "40",
+                        "class": "tour_verschieben_checkbox",
+                        "id": ""
+                    },
+                    "choices": {
+                        "tour_verschieben_auf": "Tour auf dieses Datum verschieben"
+                    },
+                    "allow_custom": 0,
+                    "default_value": [],
+                    "layout": "horizontal",
+                    "toggle": 0,
+                    "return_format": "value",
+                    "save_custom": 0
+                }
+            ]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "block",
+                "operator": "==",
+                "value": "acf\/tourdatum"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "modified": 1628752907
+}
