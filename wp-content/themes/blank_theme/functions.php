@@ -76,7 +76,7 @@ function add_frontend_styles() {
 }
 
 /* =============================================================== *\ 
- 	 Clean-Up <header>
+   Clean-Up <header>
 \* =============================================================== */ 
 remove_action( 'wp_head', 'feed_links_extra', 3 ); // Display the links to the extra feeds such as category feeds
 remove_action( 'wp_head', 'feed_links', 2 ); // Display the links to the general feeds: Post and Comment Feed
@@ -111,10 +111,10 @@ function remove_tinymce_emoji($plugins){
 }
 
 /* =============================================================== *\ 
- 	 Admin
-	 - Remove Admin-Menu-Elements
-	 - Remove Admin-Menu-Bar-Elements
-	 - Custom Admin-Menu Order
+   Admin
+   - Remove Admin-Menu-Elements
+   - Remove Admin-Menu-Bar-Elements
+   - Custom Admin-Menu Order
 \* =============================================================== */ 
 add_action('admin_menu', 'remove_menus');
 function remove_menus () {
@@ -171,12 +171,12 @@ function wpse_custom_menu_order( $menu_ord ) {
 }
 
 /* =============================================================== *\ 
- 	 Add Options-Page 
+   Add Options-Page 
 \* =============================================================== */ 
 //include('theme_options.php');
 
 /* =============================================================== *\ 
- 	 Load Comment-Reply-Script 
+   Load Comment-Reply-Script 
 \* =============================================================== */ 
 add_action( 'comment_form_before', 'enqueue_comment_reply_script' );
 function enqueue_comment_reply_script() {
@@ -186,12 +186,12 @@ function enqueue_comment_reply_script() {
 }
 
 /* =============================================================== *\ 
- 	 Remove "Load-More"-Button in Media-Library 
+   Remove "Load-More"-Button in Media-Library 
 \* =============================================================== */ 
 add_filter( 'media_library_infinite_scrolling', '__return_true' );
 
 /* =============================================================== *\ 
- 	 Add Title-Separator 
+   Add Title-Separator 
 \* =============================================================== */ 
 add_filter( 'document_title_separator', 'document_title_separator' );
 function document_title_separator( $sep ) {
@@ -200,7 +200,7 @@ function document_title_separator( $sep ) {
 }
 
 /* =============================================================== *\ 
- 	 Add ... to title, if necessary 
+   Add ... to title, if necessary 
 \* =============================================================== */ 
 add_filter( 'the_title', 'mytitle' );
 function mytitle( $title ) {
@@ -212,7 +212,7 @@ function mytitle( $title ) {
 }
 
 /* =============================================================== *\ 
- 	 Remove automatically P-Tags 
+   Remove automatically P-Tags 
 \* =============================================================== */ 
 $priority = has_filter( 'the_content', 'wpautop' );
 if ( false !== $priority ) {
@@ -220,11 +220,11 @@ if ( false !== $priority ) {
 }
 
 /* =============================================================== *\ 
- 	 Add Title-Tag to <head> 
-	 Add Post-thumbnails 
-	 Remove unnecessary "type"-attribute from javascript files
-	 Add RSS feed links to HTML <head>	 
-	 Register Nav-Menus
+   Add Title-Tag to <head> 
+   Add Post-thumbnails 
+   Remove unnecessary "type"-attribute from javascript files
+   Add RSS feed links to HTML <head>	 
+   Register Nav-Menus
 \* =============================================================== */ 
 //https://developer.wordpress.org/reference/functions/add_theme_support/
 add_action( 'after_setup_theme', 'ulrich_digital_setup' );
@@ -243,11 +243,10 @@ function ulrich_digital_setup(){
 }
 
 /* =============================================================== *\ 
- 	 Add Custom Image-Sizes 
-	 Add Custom Image-Sizes to Backend-Choose
-	 Enable SVG
+   Add Custom Image-Sizes 
+   Add Custom Image-Sizes to Backend-Choose
+   Enable SVG
 \* =============================================================== */ 
-
 //add_action('after_setup_theme', 'eigene_bildgroessen', 11);
 function eigene_bildgroessen() {
 	add_image_size('facebook_share', 1200, 630, true);
@@ -272,7 +271,7 @@ function add_svg_to_upload_mimes($upload_mimes){
 }
 
 /* =============================================================== *\ 
- 	 Allow Contributors to uplaod media 
+   Allow Contributors to uplaod media 
 \* =============================================================== */ 
 if ( current_user_can('contributor') && !current_user_can('upload_files') ){
     add_action('admin_init', 'allow_contributor_uploads');
@@ -283,7 +282,7 @@ function allow_contributor_uploads() {
 }
 
 /* =============================================================== *\ 
- 	 Enable Widgets 
+   Enable Widgets 
 \* =============================================================== */ 
 add_action( 'widgets_init', 'ulrichdigital_blank_widgets_init' );
 function ulrichdigital_blank_widgets_init() {
@@ -298,7 +297,7 @@ function ulrichdigital_blank_widgets_init() {
 }
 
 /* =============================================================== *\ 
- 	 Custom Admin-Logo 
+   Custom Admin-Logo 
 \* =============================================================== */ 
 add_action( 'login_enqueue_scripts', 'my_login_logo' );
 function my_login_logo() { ?>
@@ -314,13 +313,14 @@ function my_login_logo() { ?>
 <?php }
 
 /* =============================================================== *\ 
-	Admin
- 	- Add Custom Footer 
+   Admin
+   - Add Custom Footer 
 \* =============================================================== */ 
 add_filter( 'admin_footer_text', 'backend_entwickelt_mit_herz' );
 function backend_entwickelt_mit_herz( $text ) {
 	return ('<span style="color:black;">Entwickelt mit </span><span style="color: red;font-size:20px;vertical-align:-3px">&hearts;</span><span style="color:black;"</span><span> von <a href="https://ulrich.digital" target="_blank">ulrich.digital</a></span>' );
 }
+
 
 
 /* =============================================================== *\ 
@@ -336,7 +336,7 @@ if( function_exists('acf_add_options_page') ) {
 
 
 /* =============================================================== *\ 
- 	 ACF-Blocks 
+   ACF-Blocks 
 \* =============================================================== */ 
 /*add_action('acf/init', 'my_acf_init_block_types');
 function my_acf_init_block_types() {
@@ -410,14 +410,16 @@ function my_acf_init_block_types() {
 }
 add_action( 'init', 'block_template_tourenportal' );
 
-/* Woocommerce */
+/* =============================================================== *\ 
+   Woocommerce 
+\* =============================================================== */ 
 /*Woocommerce Unterstützung Backend > WooCommerce > Status deklarieren */
 /*add_action( 'after_setup_theme', 'setup_woocommerce_support' ); 
 function setup_woocommerce_support() { 
 	add_theme_support('woocommerce'); 
 	} */
-	
-/* Contact Form 7 */
+
+
 
 
 /* =============================================================== *\ 
@@ -468,8 +470,8 @@ function ab_register_post_type_touren(){
 /* =============================================================== *\ 
  	 Admin-Columns anpassen 
 	 !! Achtung: Werte müssen als Meta-Keys vorhanden sein !!
+	 //https://www.smashingmagazine.com/2017/12/customizing-admin-columns-wordpress/
 \* =============================================================== */ 
-//https://www.smashingmagazine.com/2017/12/customizing-admin-columns-wordpress/
 
 
 
