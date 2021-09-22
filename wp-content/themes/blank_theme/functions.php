@@ -115,6 +115,7 @@ function remove_tinymce_emoji($plugins){
    - Remove Admin-Menu-Elements
    - Remove Admin-Menu-Bar-Elements
    - Custom Admin-Menu Order
+   - Removing panels (meta boxes) in the Block Editor
 \* =============================================================== */ 
 add_action('admin_menu', 'remove_menus');
 function remove_menus () {
@@ -169,6 +170,26 @@ function wpse_custom_menu_order( $menu_ord ) {
      'separator-last', // Last separator
  	);
 }
+
+/* Removing panels (meta boxes) in the Block Editor 
+   read more: 
+   https://newbedev.com/removing-panels-meta-boxes-in-the-block-editor
+*/
+function cc_gutenberg_register_files() {
+    // script file
+    wp_register_script(
+        'cc-block-script',
+        get_stylesheet_directory_uri() .'/js/block-script.js', // adjust the path to the JS file
+        array( 'wp-blocks', 'wp-edit-post' )
+    );
+    // register block editor script
+    register_block_type( 'cc/ma-block-files', array(
+        'editor_script' => 'cc-block-script'
+    ) );
+}
+add_action( 'init', 'cc_gutenberg_register_files' );
+
+
 
 /* =============================================================== *\ 
    Add Options-Page 
