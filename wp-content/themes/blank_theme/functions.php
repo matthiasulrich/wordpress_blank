@@ -510,7 +510,7 @@ function setup_woocommerce_support() {
 	 - kann abgefragt werden mit: if(is_my_super_admin() == true)
 	 - z.B. um gewisse Seiten zu verstecken 
 \* =============================================================== */ 
-$my_super_admins = array("2");
+$my_super_admins = array("2"); // Hier User-ID's eintragen
 function is_my_super_admin(){
 	global $my_super_admins;	
 	$is_super_admin = false;
