@@ -487,29 +487,18 @@ function setup_woocommerce_support() {
 
 /* =============================================================== *\ 
 
-	Customized Front-End for Customer
-	
-\* =============================================================== */ 
-
-/* =============================================================== *\ 
-	 Breadcrumb - Menu
-	 @template archive.php
-\* =============================================================== */ 
-//https://kulturbanause.de/blog/wordpress-breadcrumb-navigation-ohne-plugin/
-
-
-
-/* =============================================================== *\ 
-
 	Customized Back-End for Customer
 	
 \* =============================================================== */ 
   
+
+
 /* =============================================================== *\ 
 	 Super-Admins 
 	 - kann abgefragt werden mit: if(is_my_super_admin() == true)
 	 - z.B. um gewisse Seiten zu verstecken 
 \* =============================================================== */ 
+/*
 $my_super_admins = array("2"); // Hier User-ID's eintragen
 function is_my_super_admin(){
 	global $my_super_admins;	
@@ -523,14 +512,14 @@ function is_my_super_admin(){
 	endforeach;
 	return($is_super_admin);
 }
-
+*/
 /* =============================================================== *\ 
  	 Gewisse Seiten im Wordpress-Admin-Bereich ausblenden 
 	 - per Kategorie
 	 - per Page-Template 
 	 - per URL-Titelform (was bei Permalink angegeben werden kann)
 \* =============================================================== */ 
-
+/*
 $page_template_array = array('archive-touren-archive.php', 'page-aktuell-archive.php', 'page_tourenbericht_erfassen.php');
 $url_title_array = array('form-tourenbericht-thank-you');
 $cat_slug_array = array('only-for-admin');
@@ -584,11 +573,13 @@ function exclude_pages_from_admin($query) {
 	  	$query->query_vars['post__not_in'] = $page_IDs_array;
   	}
 }
+*/
 
 /* =============================================================== *\ 
  	 Category hide 
 	 //https://wordpress.org/support/topic/hide-some-categories-in-post-editor/
 \* =============================================================== */ 
+/*
 if(is_my_super_admin()== false):
 	add_filter( 'list_terms_exclusions', 'hide_categories_for_specific_user', 10, 2 );
 endif;
@@ -627,12 +618,131 @@ function hide_categories_by_css() {
 	</style>
 	<?php
 }
+*/
 /* =============================================================== *\ 
  	 Admin-Columns anpassen 
 	 !! Achtung: Werte müssen als Meta-Keys vorhanden sein !!
 	 //https://www.smashingmagazine.com/2017/12/customizing-admin-columns-wordpress/
 \* =============================================================== */ 
+/*
+add_filter( 'manage_touren_posts_columns', 'touren_columns' );
+function touren_columns( $columns ) {
+	$columns = array(
+		'cb'          => 'cb',
+		'title' => 'Title',
+		'tourenleiter' => 'Tourenleiter',
+		'current_tour_date' => 'Tour-Datum',
+		'bereiche' => 'Bereich',
+	);
+	return $columns;
+}
+
+// Inhalte aus den Meta-Keys in die Kolonnen hinzufügen
+add_action( 'manage_touren_posts_custom_column', 'touren_custom_column', 10, 2);
+function touren_custom_column( $column, $post_id ) {
+	if('tourenleiter' === $column){
+		echo get_current_tourenleiter_name($post_id);
+	}
+	if('current_tour_date' === $column){
+		echo make_human_date(get_post_meta($post_id, 'current_tour_date', true));
+	}
+	if('bereiche' === $column){
+		echo get_post_meta($post_id, 'bereiche', true);
+	}
+}
+
+// Kolonnen sortierbar machen
+add_filter( 'manage_edit-touren_sortable_columns', 'touren_sortable_columns');
+function touren_sortable_columns( $columns ) {
+	$columns['current_tour_date'] = 'current_tour_date';
+	$columns['tourenleiter'] = 'tourenleiter_name';
+	$columns['bereiche'] = 'bereiche';
+  	return $columns;
+}
+
+add_action( 'pre_get_posts', 'touren_posts_orderby' );
+function touren_posts_orderby( $query ) {
+	if( ! is_admin() || ! $query->is_main_query() ) { return; }
+	
+	$orderby = $query->get( 'orderby');
+   	if( 'current_tour_date' == $orderby ) {
+		$query->set('meta_key','current_tour_date');
+		$query->set('orderby','meta_value');
+	}elseif('tourenleiter_name'==$orderby){
+		$query->set('meta_key','tourenleiter_name');
+		$query->set('orderby','meta_value');
+	}elseif('bereiche'==$orderby){
+		$query->set('meta_key','bereiche');
+		$query->set('orderby','meta_value');
+	}
+}
+*/
+
+
+/* =============================================================== *\ 
+ 	 Custom Post Status 
+\* =============================================================== */ 
+/*function wpdocs_custom_post_status(){
+    register_post_status( 'archiv', array(
+        'label'                     => 'Archiv',
+        'public'                    => true,
+        'exclude_from_search'       => false,
+        'show_in_admin_all_list'    => true,
+        'show_in_admin_status_list' => true,
+        'label_count'               => _n_noop( 'Archiv <span class="count">(%s)</span>', 'Archiv <span class="count">(%s)</span>' ),
+		'show_in_metabox_dropdown'  => true,
+                    'show_in_inline_dropdown'   => true,
+                    'dashicon'                  => 'dashicons-businessman',
+    ) );
+}
+add_action( 'init', 'wpdocs_custom_post_status' );
+
+
+add_filter( 'display_post_states', function( $statuses ) {
+    global $post;
+	if($post!=NULL):
+    	if( $post->post_type == 'touren') {
+        	if ( get_query_var( 'post_status' ) != 'archiv' ) { // not for pages with all posts of this status
+            	if ( $post->post_status == 'archiv' ) {
+                	return array( 'Archiv' );
+            	}
+        	}
+		}
+    	return $statuses;
+	endif;
+});
+
+function my_custom_status_add_in_quick_edit() {
+	echo "<script>
+	jQuery(document).ready( function() {
+	jQuery( 'select[name=\"_status\"]' ).append( '<option value=\"archiv\">Archiv</option>' );      
+	}); 
+	</script>";
+}
+add_action('admin_footer-edit.php','my_custom_status_add_in_quick_edit');
+
+function my_custom_status_add_in_post_page() {
+	echo "<script>
+	jQuery(document).ready( function() {        
+	jQuery( 'select[name=\"post_status\"]' ).append( '<option value=\"archiv\">Archiv</option>' );
+	});
+	</script>";
+	}
+add_action('admin_footer-post.php', 'my_custom_status_add_in_post_page');
+add_action('admin_footer-post-new.php', 'my_custom_status_add_in_post_page');
+*/
+
+
+/* =============================================================== *\ 
+
+	Customized Front-End for Customer
+	
+\* =============================================================== */ 
 
 
 
-
+/* =============================================================== *\ 
+	 Breadcrumb - Menu
+	 @template archive.php
+\* =============================================================== */ 
+//https://kulturbanause.de/blog/wordpress-breadcrumb-navigation-ohne-plugin/
