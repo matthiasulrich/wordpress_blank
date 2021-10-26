@@ -115,6 +115,7 @@ function remove_tinymce_emoji($plugins){
    - Remove Admin-Menu-Elements
    - Remove Admin-Menu-Bar-Elements
    - Custom Admin-Menu Order
+   - Removing panels (meta boxes) in the Block Editor
 \* =============================================================== */ 
 add_action('admin_menu', 'remove_menus');
 function remove_menus () {
@@ -169,6 +170,26 @@ function wpse_custom_menu_order( $menu_ord ) {
      'separator-last', // Last separator
  	);
 }
+
+/* Removing panels (meta boxes) in the Block Editor 
+   read more: 
+   https://newbedev.com/removing-panels-meta-boxes-in-the-block-editor
+*/
+function cc_gutenberg_register_files() {
+    // script file
+    wp_register_script(
+        'cc-block-script',
+        get_stylesheet_directory_uri() .'/js/block-script.js', // adjust the path to the JS file
+        array( 'wp-blocks', 'wp-edit-post' )
+    );
+    // register block editor script
+    register_block_type( 'cc/ma-block-files', array(
+        'editor_script' => 'cc-block-script'
+    ) );
+}
+add_action( 'init', 'cc_gutenberg_register_files' );
+
+
 
 /* =============================================================== *\ 
    Add Options-Page 
@@ -466,17 +487,256 @@ function setup_woocommerce_support() {
 
 /* =============================================================== *\ 
 
-	Customized for Customer
+	Customized Back-End for Customer
 	
 \* =============================================================== */ 
   
 
 
+/* =============================================================== *\ 
+	 Super-Admins 
+	 - kann abgefragt werden mit: if(is_my_super_admin() == true)
+	 - z.B. um gewisse Seiten zu verstecken 
+\* =============================================================== */ 
+/*
+$my_super_admins = array("2"); // Hier User-ID's eintragen
+function is_my_super_admin(){
+	global $my_super_admins;	
+	$is_super_admin = false;
+	foreach($my_super_admins as $my_super_admin):
+		if(get_current_user_id()==$my_super_admin):
+			$is_super_admin = true;
+		else:
+			$is_usper_admin = false;
+		endif;
+	endforeach;
+	return($is_super_admin);
+}
+*/
+/* =============================================================== *\ 
+ 	 Gewisse Seiten im Wordpress-Admin-Bereich ausblenden 
+	 - per Kategorie
+	 - per Page-Template 
+	 - per URL-Titelform (was bei Permalink angegeben werden kann)
+\* =============================================================== */ 
+/*
+$page_template_array = array('archive-touren-archive.php', 'page-aktuell-archive.php', 'page_tourenbericht_erfassen.php');
+$url_title_array = array('form-tourenbericht-thank-you');
+$cat_slug_array = array('only-for-admin');
+$cat_id_array = array(); //kann hier befüllt werden, die cat_slugs werden automatisch hinzugefügt.
 
+foreach($cat_slug_array as $cat):	
+	$idObj = get_category_by_slug( $cat );
+	if ( $idObj instanceof WP_Term ) {
+    	$id = $idObj->term_id;
+		array_push($cat_id_array, $id);
+	}
+endforeach;
+
+if(is_my_super_admin()== false):
+	add_filter( 'parse_query', 'exclude_pages_from_admin' );
+endif;
+function exclude_pages_from_admin($query) {
+	global $pagenow, $post_type, $page_template_array, $url_title_array, $cat_slug_array;
+	
+	$page_IDs_array = array(); //In diesem Array werden dann alle ID's gesammelt
+			
+  	if (is_admin() && $pagenow=='edit.php' && $post_type =='page') {
+		$all_pages = get_pages();
+		foreach($all_pages as $page):
+			
+			// Hide Page per Template 
+			foreach($page_template_array as $page_template):
+				if($page_template == get_post_meta($page->ID,'_wp_page_template',true) ):
+					array_push($page_IDs_array, $page->ID);
+				endif;
+			endforeach;
+
+			// Hide Page per URL-Titelform
+			foreach($url_title_array as $my_url):
+				if($my_url == $page->post_name):
+					array_push($page_IDs_array, $page->ID);
+				endif;
+			endforeach;
+
+			// Hide Page per Category
+			foreach($cat_slug_array as $cat):
+				if(has_category($cat, $page)):
+					array_push($page_IDs_array, $page->ID);
+				endif;				
+			endforeach;
+			
+		endforeach;
+			
+		$page_IDs_array = array_unique($page_IDs_array);
+	  	//Seiten ausblenden
+	  	$query->query_vars['post__not_in'] = $page_IDs_array;
+  	}
+}
+*/
+
+/* =============================================================== *\ 
+ 	 Category hide 
+	 //https://wordpress.org/support/topic/hide-some-categories-in-post-editor/
+\* =============================================================== */ 
+/*
+if(is_my_super_admin()== false):
+	add_filter( 'list_terms_exclusions', 'hide_categories_for_specific_user', 10, 2 );
+endif;
+
+function hide_categories_for_specific_user( $exclusions, $args ){
+	global $cat_id_array;
+	$exterms = wp_parse_id_list( $cat_id_array );
+   	foreach ( $exterms as $exterm ):
+	   	if ( empty($exclusions) ):
+		   	$exclusions = ' AND ( t.term_id <> ' . intval($exterm) . ' ';
+		else:
+    		$exclusions .= ' AND t.term_id <> ' . intval($exterm) . ' ';
+		endif;
+   endforeach;
+   if ( !empty($exclusions) )
+       $exclusions .= ')';
+   return $exclusions;  
+}
+
+// aus Kategorien-Auswahl entfernen
+if(is_my_super_admin()== false):
+	add_action( 'admin_head-post.php', 'hide_categories_by_css' );
+	add_action( 'admin_head-post-new.php', 'hide_categories_by_css' );
+endif;
+
+function hide_categories_by_css() { 
+	global $cat_id_array;
+	$hide_style = "";
+	foreach ($cat_id_array as $my_cat_id):
+		$hide_style .= "#editor-post-taxonomies-hierarchical-term-" . $my_cat_id . ",";
+		$hide_style .= "label[for='editor-post-taxonomies-hierarchical-term-" . $my_cat_id . "']{display:none}";
+	endforeach; ?>
+	
+	<style type="text/css">
+		<?php echo $hide_style; ?>
+	</style>
+	<?php
+}
+*/
 /* =============================================================== *\ 
  	 Admin-Columns anpassen 
 	 !! Achtung: Werte müssen als Meta-Keys vorhanden sein !!
 	 //https://www.smashingmagazine.com/2017/12/customizing-admin-columns-wordpress/
+\* =============================================================== */ 
+/*
+add_filter( 'manage_touren_posts_columns', 'touren_columns' );
+function touren_columns( $columns ) {
+	$columns = array(
+		'cb'          => 'cb',
+		'title' => 'Title',
+		'tourenleiter' => 'Tourenleiter',
+		'current_tour_date' => 'Tour-Datum',
+		'bereiche' => 'Bereich',
+	);
+	return $columns;
+}
+
+// Inhalte aus den Meta-Keys in die Kolonnen hinzufügen
+add_action( 'manage_touren_posts_custom_column', 'touren_custom_column', 10, 2);
+function touren_custom_column( $column, $post_id ) {
+	if('tourenleiter' === $column){
+		echo get_current_tourenleiter_name($post_id);
+	}
+	if('current_tour_date' === $column){
+		echo make_human_date(get_post_meta($post_id, 'current_tour_date', true));
+	}
+	if('bereiche' === $column){
+		echo get_post_meta($post_id, 'bereiche', true);
+	}
+}
+
+// Kolonnen sortierbar machen
+add_filter( 'manage_edit-touren_sortable_columns', 'touren_sortable_columns');
+function touren_sortable_columns( $columns ) {
+	$columns['current_tour_date'] = 'current_tour_date';
+	$columns['tourenleiter'] = 'tourenleiter_name';
+	$columns['bereiche'] = 'bereiche';
+  	return $columns;
+}
+
+add_action( 'pre_get_posts', 'touren_posts_orderby' );
+function touren_posts_orderby( $query ) {
+	if( ! is_admin() || ! $query->is_main_query() ) { return; }
+	
+	$orderby = $query->get( 'orderby');
+   	if( 'current_tour_date' == $orderby ) {
+		$query->set('meta_key','current_tour_date');
+		$query->set('orderby','meta_value');
+	}elseif('tourenleiter_name'==$orderby){
+		$query->set('meta_key','tourenleiter_name');
+		$query->set('orderby','meta_value');
+	}elseif('bereiche'==$orderby){
+		$query->set('meta_key','bereiche');
+		$query->set('orderby','meta_value');
+	}
+}
+*/
+
+
+/* =============================================================== *\ 
+ 	 Custom Post Status 
+\* =============================================================== */ 
+/*function wpdocs_custom_post_status(){
+    register_post_status( 'archiv', array(
+        'label'                     => 'Archiv',
+        'public'                    => true,
+        'exclude_from_search'       => false,
+        'show_in_admin_all_list'    => true,
+        'show_in_admin_status_list' => true,
+        'label_count'               => _n_noop( 'Archiv <span class="count">(%s)</span>', 'Archiv <span class="count">(%s)</span>' ),
+		'show_in_metabox_dropdown'  => true,
+                    'show_in_inline_dropdown'   => true,
+                    'dashicon'                  => 'dashicons-businessman',
+    ) );
+}
+add_action( 'init', 'wpdocs_custom_post_status' );
+
+
+add_filter( 'display_post_states', function( $statuses ) {
+    global $post;
+	if($post!=NULL):
+    	if( $post->post_type == 'touren') {
+        	if ( get_query_var( 'post_status' ) != 'archiv' ) { // not for pages with all posts of this status
+            	if ( $post->post_status == 'archiv' ) {
+                	return array( 'Archiv' );
+            	}
+        	}
+		}
+    	return $statuses;
+	endif;
+});
+
+function my_custom_status_add_in_quick_edit() {
+	echo "<script>
+	jQuery(document).ready( function() {
+	jQuery( 'select[name=\"_status\"]' ).append( '<option value=\"archiv\">Archiv</option>' );      
+	}); 
+	</script>";
+}
+add_action('admin_footer-edit.php','my_custom_status_add_in_quick_edit');
+
+function my_custom_status_add_in_post_page() {
+	echo "<script>
+	jQuery(document).ready( function() {        
+	jQuery( 'select[name=\"post_status\"]' ).append( '<option value=\"archiv\">Archiv</option>' );
+	});
+	</script>";
+	}
+add_action('admin_footer-post.php', 'my_custom_status_add_in_post_page');
+add_action('admin_footer-post-new.php', 'my_custom_status_add_in_post_page');
+*/
+
+
+/* =============================================================== *\ 
+
+	Customized Front-End for Customer
+	
 \* =============================================================== */ 
 
 
