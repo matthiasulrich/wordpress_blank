@@ -12,6 +12,35 @@ setlocale(LC_TIME, "de_DE.utf8");
 	 
 \* =============================================================== */ 
 
+
+/* =============================================================== *\ 
+   Block-Variations
+\* =============================================================== */ 
+
+function enqueue_block_variations() {
+	$url_h0 = get_stylesheet_directory_uri() . '/blocks/block_variations.js';
+	wp_enqueue_script('block-variations', $url_h0, array( 'wp-blocks', 'wp-dom-ready', 'wp-edit-post' ));
+}
+add_action( 'enqueue_block_editor_assets', 'enqueue_block_variations' );  
+
+/* =============================================================== *\ 
+   Custom Block-Categories 
+\* =============================================================== */ 
+
+add_filter( 'block_categories_all', function( $categories, $post ) {
+	$my_categories = array_merge(
+		array(
+			array(
+				'slug'  => 'my_slug',
+				'title' => 'My Title',
+			),
+		),
+		$categories
+	);
+	return $my_categories;    
+}, 10, 2 );
+
+
 /* =============================================================== *\ 
    JavaScripts + Styles
 \* =============================================================== */ 
