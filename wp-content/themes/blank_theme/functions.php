@@ -332,6 +332,18 @@ function allow_contributor_uploads() {
 }
 
 /* =============================================================== *\ 
+   Bildgrössen neu regenerieren 
+\* =============================================================== */ 
+function gb_regen_load() {
+	$gb_regen_media = new GB_regen_media();
+	//$i = imageID
+	for($i = 5752; $i <= 5762; $i++): 
+		$gb_regen_media->gb_regenerate($i);
+	endfor;
+}
+//add_action('init', 'gb_regen_load');
+
+/* =============================================================== *\ 
    Enable Widgets 
 \* =============================================================== */ 
 add_action( 'widgets_init', 'ulrichdigital_blank_widgets_init' );
