@@ -334,6 +334,19 @@ function allow_contributor_uploads() {
 /* =============================================================== *\ 
    Bildgrössen neu regenerieren 
 \* =============================================================== */ 
+require_once(ABSPATH . 'wp-admin/includes/image.php');
+
+// Put the function in a class to make it more extendable
+class GB_regen_media {
+    public function gb_regenerate($imageId) {
+        $imagePath = wp_get_original_image_path($imageId);
+
+        if ($imagePath && file_exists($imagePath)) {
+            wp_generate_attachment_metadata($imageId, $imagePath);
+        }
+    }
+}
+
 function gb_regen_load() {
 	$gb_regen_media = new GB_regen_media();
 	//$i = imageID
