@@ -7,7 +7,7 @@ Entwicklungs-Theme für ulrich.ulrich_digital
 
 ## Docker
 1. Diesen Code downloaden
-2. terminal auf Ordner
+2. Im Terminal auf Ordner navigieren
 3. docker compose up -d
 
 ## Roadmap
