@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html <?php language_attributes(); ?>>
+<html <?php language_attributes(); ?> <?php ud_schema_type(); ?>>
 <head>
 	
 <meta charset="<?php bloginfo('charset'); ?>" />
