@@ -14,47 +14,21 @@ setlocale(LC_TIME, "de_DE.utf8");
 
 
 /* =============================================================== *\ 
-   Block-Variations
+   
+   JavaScripts
+   AJAX
+   Styles
+   
 \* =============================================================== */ 
 
-function enqueue_block_variations() {
-	$url_h0 = get_stylesheet_directory_uri() . '/blocks/block_variations.js';
-	wp_enqueue_script('block-variations', $url_h0, array( 'wp-blocks', 'wp-dom-ready', 'wp-edit-post' ));
-}
-add_action( 'enqueue_block_editor_assets', 'enqueue_block_variations' );  
 
-/* =============================================================== *\ 
-   Custom Block-Categories 
-\* =============================================================== */ 
-
-add_filter( 'block_categories_all', function( $categories, $post ) {
-	$my_categories = array_merge(
-		array(
-			array(
-				'slug'  => 'my_slug',
-				'title' => 'My Title',
-			),
-		),
-		$categories
-	);
-	return $my_categories;    
-}, 10, 2 );
-
-
-/* =============================================================== *\ 
-   JavaScripts + Styles
-\* =============================================================== */ 
-
-/* Backend */
+// Backend JS + AJAX
 add_action( 'admin_enqueue_scripts', 'add_backend_javascripts' );
 function add_backend_javascripts() {
-	wp_enqueue_media();
-
+	wp_enqueue_media(); // Enqueues all scripts, styles, settings, and templates necessary to use all media JS APIs.
 	$url_h0 = get_stylesheet_directory_uri() . '/js/ulrich_admin.js';
    	wp_enqueue_script( 'jquery' );
-   	wp_enqueue_script( 'my-admin-js' );
 	wp_enqueue_script( 'my-admin-js', $url_h0, array('jquery', 'acf'), null, true );
-
 	wp_localize_script( 'my-admin-js', 'myAjax', array( 
 		'ajaxurl' => admin_url( 'admin-ajax.php' ), 
 		'post_id' => get_the_ID(),
@@ -62,6 +36,7 @@ function add_backend_javascripts() {
 	);        
 }
 
+// Backend CSS
 add_action('admin_enqueue_scripts', 'add_backend_styles');  
 function add_backend_styles() {	
 	wp_enqueue_style('admin-styles', get_template_directory_uri().'/style-admin.css');
@@ -69,7 +44,8 @@ function add_backend_styles() {
 	wp_enqueue_style('font_awesome');
 }
 
-/* Frontend */
+
+// Frontend JS
 add_action( 'wp_enqueue_scripts', 'add_frontend_javascripts' );
 function add_frontend_javascripts() {
 	//$url_h1 = get_stylesheet_directory_uri().'/js/slick.min.js';
@@ -79,13 +55,12 @@ function add_frontend_javascripts() {
 	$url_h3 = get_stylesheet_directory_uri().'/js/ulrich.js?v='. time() . '';
     //wp_enqueue_script( 'eigener_Name', pfad_zum_js, abhaengigkeit (zb jquery zuerst laden), versionsnummer, bool (true=erst im footer laden) );
 	//wp_enqueue_script( 'jquery' );
-	//wp_enqueue_script( 'handler_name_1', $url_h1, array('jquery'), null, false );
-	//wp_enqueue_script( 'handler_name_2', $url_h2, array('jquery'), null, false );
 	wp_enqueue_script( 'handler_name_0', $url_h0, array('jquery'), null, false );
 	wp_enqueue_script( 'handler_name_2', $url_h2, array('jquery'), null, true );
 	wp_enqueue_script( 'handler_name_3', $url_h3, array('jquery'), null, true );
 }
 
+// Frontend CSS
 add_action('wp_enqueue_scripts', 'add_frontend_styles');
 function add_frontend_styles() {
 	//wp_register_style( $handle, $src, $deps, $ver, $media );
@@ -104,47 +79,9 @@ function add_frontend_styles() {
     */
 }
 
+  
 /* =============================================================== *\ 
-   Clean-Up <header>
-\* =============================================================== */ 
-remove_action( 'wp_head', 'feed_links_extra', 3 ); // Display the links to the extra feeds such as category feeds
-remove_action( 'wp_head', 'feed_links', 2 ); // Display the links to the general feeds: Post and Comment Feed
-remove_action( 'wp_head', 'rsd_link' ); // Display the link to the Really Simple Discovery service endpoint, EditURI link
-remove_action( 'wp_head', 'wlwmanifest_link' ); // Display the link to the Windows Live Writer manifest file.
-remove_action( 'wp_head', 'index_rel_link' ); // index link
-remove_action( 'wp_head', 'parent_post_rel_link', 10, 0 ); // prev link
-remove_action( 'wp_head', 'start_post_rel_link', 10, 0 ); // start link
-remove_action( 'wp_head', 'adjacent_posts_rel_link', 10, 0 ); // Display relational links for the posts adjacent to the current post.
-remove_action( 'wp_head', 'wp_generator' ); // Display the XHTML generator that is generated on the wp_head hook, WP version
-remove_action( 'wp_head', 'rest_output_link_wp_head');
-remove_action( 'wp_head', 'wp_oembed_add_discovery_links');
-remove_action( 'template_redirect', 'rest_output_link_header', 11, 0 );
-/// emojis weg
-add_action('init', 'remove_emoji');
-function remove_emoji(){
-	remove_action('wp_head', 'print_emoji_detection_script', 7);
-	remove_action('admin_print_scripts', 'print_emoji_detection_script');
-	remove_action('admin_print_styles', 'print_emoji_styles');
-	remove_action('wp_print_styles', 'print_emoji_styles');
-	remove_filter('the_content_feed', 'wp_staticize_emoji');
-	remove_filter('comment_text_rss', 'wp_staticize_emoji');
-	remove_filter('wp_mail', 'wp_staticize_emoji_for_email');
-	add_filter('tiny_mce_plugins', 'remove_tinymce_emoji');
-}
-
-function remove_tinymce_emoji($plugins){
-	if (!is_array($plugins)){
-		return array();
-	}
-	return array_diff($plugins, array('wpemoji'));
-}
-
-/* =============================================================== *\ 
-   Admin
-   - Remove Admin-Menu-Elements
-   - Remove Admin-Menu-Bar-Elements
-   - Custom Admin-Menu Order
-   - Removing panels (meta boxes) in the Block Editor
+   Remove Admin-Menu-Elements
 \* =============================================================== */ 
 add_action('admin_menu', 'remove_menus');
 function remove_menus () {
@@ -160,8 +97,12 @@ function remove_menus () {
 	}
 }
 
-add_action( 'wp_before_admin_bar_render', 'mytheme_admin_bar_render' );
-function mytheme_admin_bar_render() {
+
+/* =============================================================== *\ 
+   Remove Admin-Menu-Bar-Elements
+\* =============================================================== */ 
+add_action( 'wp_before_admin_bar_render', 'ud_admin_bar_render' );
+function ud_admin_bar_render() {
 	global $wp_admin_bar;
 	$wp_admin_bar->remove_menu('comments');
 	$wp_admin_bar->remove_menu('wp-logo');
@@ -179,10 +120,14 @@ function mytheme_admin_bar_render() {
 	*/
 }
 
+
+/* =============================================================== *\ 
+   Custom Admin-Menu Order
+\* =============================================================== */ 
 /* Benutzerdefinierte Reihenfolge des Backend-Menu */
 //add_filter( 'custom_menu_order', '__return_true' );
-//add_filter( 'menu_order', 'wpse_custom_menu_order', 10, 1 );
-function wpse_custom_menu_order( $menu_ord ) {
+//add_filter( 'menu_order', 'ud_custom_menu_order', 10, 1 );
+function ud_custom_menu_order( $menu_ord ) {
 	if ( !$menu_ord ) return true;
  	return array(
      'index.php', // Dashboard
@@ -200,109 +145,92 @@ function wpse_custom_menu_order( $menu_ord ) {
  	);
 }
 
-/* Removing panels (meta boxes) in the Block Editor 
-   read more: 
-   https://newbedev.com/removing-panels-meta-boxes-in-the-block-editor
-*/
-function cc_gutenberg_register_files() {
+/* =============================================================== *\ 
+   Removing panels (meta boxes) in the Block Editor  
+\* =============================================================== */ 
+// https://newbedev.com/removing-panels-meta-boxes-in-the-block-editor
+/*
+function ud_register_files() {
     // script file
-    wp_register_script(
-        'cc-block-script',
-        get_stylesheet_directory_uri() .'/js/block-script.js', // adjust the path to the JS file
-        array( 'wp-blocks', 'wp-edit-post' )
-    );
+    wp_register_script('ud-block-script', get_stylesheet_directory_uri() .'/js/block-script.js', array( 'wp-blocks', 'wp-edit-post' )); // adjust the path to the JS file
     // register block editor script
-    register_block_type( 'cc/ma-block-files', array(
-        'editor_script' => 'cc-block-script'
-    ) );
+    register_block_type( 'cc/ma-block-files', array('editor_script' => 'ud-block-script') );
 }
-add_action( 'init', 'cc_gutenberg_register_files' );
-
-
+add_action( 'init', 'ud_register_files' );
+*/
 
 /* =============================================================== *\ 
    Add Options-Page 
 \* =============================================================== */ 
 //include('theme_options.php');
 
+
 /* =============================================================== *\ 
-   Load Comment-Reply-Script 
+   Load Comment-Reply-Script > kann glaub gelöscht werden 2204
 \* =============================================================== */ 
-add_action( 'comment_form_before', 'enqueue_comment_reply_script' );
+/*add_action( 'comment_form_before', 'enqueue_comment_reply_script' );
 function enqueue_comment_reply_script() {
 	if ( get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
 	}
 }
+*/
 
-/* =============================================================== *\ 
-   Remove "Load-More"-Button in Media-Library 
-\* =============================================================== */ 
-add_filter( 'media_library_infinite_scrolling', '__return_true' );
-
-/* =============================================================== *\ 
-   Add Title-Separator 
-\* =============================================================== */ 
-add_filter( 'document_title_separator', 'document_title_separator' );
-function document_title_separator( $sep ) {
-    $sep = '|';
-    return $sep;
-}
-
-/* =============================================================== *\ 
-   Add ... to title, if necessary 
-\* =============================================================== */ 
-add_filter( 'the_title', 'mytitle' );
-function mytitle( $title ) {
-    if ( $title == '' ) {
-        return '...';
-    } else {
-        return $title;
-    }
-}
-
-/* =============================================================== *\ 
-   Remove automatically P-Tags 
-\* =============================================================== */ 
-$priority = has_filter( 'the_content', 'wpautop' );
-if ( false !== $priority ) {
-	remove_filter( 'the_content', 'wpautop', $priority );
-}
 
 /* =============================================================== *\ 
    Add Title-Tag to <head> 
    Add Post-thumbnails 
-   Remove unnecessary "type"-attribute from javascript files
-   Add RSS feed links to HTML <head>	 
    Register Nav-Menus
 \* =============================================================== */ 
 //https://developer.wordpress.org/reference/functions/add_theme_support/
 add_action( 'after_setup_theme', 'ulrich_digital_setup' );
 function ulrich_digital_setup(){
     add_theme_support( 'title-tag' );
-    //add_theme_support( 'post-thumbnails' );
-	add_theme_support( 'html5', [ 'script', 'style' ] );
-	add_theme_support( 'automatic-feed-links' );
-    register_nav_menus(
+    add_theme_support( 'post-thumbnails' );
+	add_theme_support('responsive-embeds');
+	//add_theme_support( 'automatic-feed-links' );
+	add_theme_support('html5', array( 'search-form', 'navigation-widgets' ));
+    
+	global $content_width;
+	if (!isset($content_width)) {
+		$content_width = 1920;
+	}
+	
+	register_nav_menus(
 	   array(
-		   'main-menu' => __( 'Main Menu', 'ulrich_digital_blank' ),
-		   'footer_menu_1' => __( 'Footer Menu 1', 'ulrich_digital_blank' ),
-		   'footer_menu_2' => __( 'Footer Menu 2', 'ulrich_digital_blank' )
+		   'main-menu' => 'Main Menu',
+		   'footer_menu_1' => 'Footer Menu 1',
+		   'footer_menu_2' => 'Footer Menu 2',
 	    )
     );
 }
 
+
+ 
 /* =============================================================== *\ 
-   Add Custom Image-Sizes 
-   Add Custom Image-Sizes to Backend-Choose
-   Enable SVG
+
+ 	 Media 
+
 \* =============================================================== */ 
+
+// enable oversized Images
+add_filter('big_image_size_threshold', '__return_false');
+
+// Add Custom Image-Sizes 
 //add_action('after_setup_theme', 'eigene_bildgroessen', 11);
 function eigene_bildgroessen() {
 	add_image_size('facebook_share', 1200, 630, true);
 	add_image_size('startseiten_slider', 2000, 1125, true);
 	add_image_size('angebot_header_bild', 2000, 2000, false);
 	add_image_size('galerie_thumb', 700, 700, true);
+}
+
+// enable SVG 
+add_filter('upload_mimes', 'add_svg_to_upload_mimes');
+function add_svg_to_upload_mimes($upload_mimes){
+	$upload_mimes['svg'] = 'image/svg+xml';
+	$upload_mimes['svgz'] = 'image/svg+xml';
+	return $upload_mimes;
 }
 
 /* Add Image-Sizes to Backend-Choose */
@@ -312,17 +240,19 @@ function bildgroessen_auswaehlen($sizes) {
 	return array_merge($sizes, $custom_sizes);
 }
 
-/* SVG erlauben */
-add_filter('upload_mimes', 'add_svg_to_upload_mimes');
-function add_svg_to_upload_mimes($upload_mimes){
-	$upload_mimes['svg'] = 'image/svg+xml';
-	$upload_mimes['svgz'] = 'image/svg+xml';
-	return $upload_mimes;
-}
+// Remove not wanted WP-Image-Sizes
+add_filter('intermediate_image_sizes_advanced', 'ud_image_insert_override');
+function ud_image_insert_override($sizes){
+    unset($sizes['medium_large']);
+    unset($sizes['1536x1536']);
+    unset($sizes['2048x2048']);
+    return $sizes;
+}  
 
-/* =============================================================== *\ 
-   Allow Contributors to uplaod media 
-\* =============================================================== */ 
+// Remove "Load-More"-Button in Media-Library 
+add_filter( 'media_library_infinite_scrolling', '__return_true' );
+
+// Allow Contributors to uplaod media 
 if ( current_user_can('contributor') && !current_user_can('upload_files') ){
     add_action('admin_init', 'allow_contributor_uploads');
 }
@@ -331,16 +261,12 @@ function allow_contributor_uploads() {
     $contributor->add_cap('upload_files');
 }
 
-/* =============================================================== *\ 
-   Bildgrössen neu regenerieren 
-\* =============================================================== */ 
+// Regenerate Image-Sizes   
+/*
 require_once(ABSPATH . 'wp-admin/includes/image.php');
-
-// Put the function in a class to make it more extendable
 class GB_regen_media {
     public function gb_regenerate($imageId) {
         $imagePath = wp_get_original_image_path($imageId);
-
         if ($imagePath && file_exists($imagePath)) {
             wp_generate_attachment_metadata($imageId, $imagePath);
         }
@@ -349,30 +275,35 @@ class GB_regen_media {
 
 function gb_regen_load() {
 	$gb_regen_media = new GB_regen_media();
-	//$i = imageID
-	for($i = 5752; $i <= 5762; $i++): 
+	for($i = 5752; $i <= 5762; $i++): // > Add here the Image-ID's
 		$gb_regen_media->gb_regenerate($i);
 	endfor;
 }
-//add_action('init', 'gb_regen_load');
+add_action('init', 'gb_regen_load');
+*/
+
 
 /* =============================================================== *\ 
-   Enable Widgets 
+
+   Widgets 
+
 \* =============================================================== */ 
-add_action( 'widgets_init', 'ulrichdigital_blank_widgets_init' );
-function ulrichdigital_blank_widgets_init() {
+add_action( 'widgets_init', 'ud_widgets_init' );
+function ud_widgets_init() {
 	register_sidebar( array (
-		'name' => __( 'Sidebar Widget Area', 'ulrich_digital_blank' ),
+		'name' =>'Sidebar Widget Area',
 		'id' => 'primary-widget-area',
 		'before_widget' => '<li id="%1$s" class="widget-container %2$s">',
 		'after_widget' => "</li>",
 		'before_title' => '<h3 class="widget-title">',
 		'after_title' => '</h3>',
-	) );
+	));
 }
 
 /* =============================================================== *\ 
+   
    Custom Admin-Logo 
+   
 \* =============================================================== */ 
 add_action( 'login_enqueue_scripts', 'my_login_logo' );
 function my_login_logo() { ?>
@@ -388,13 +319,15 @@ function my_login_logo() { ?>
 <?php }
 
 /* =============================================================== *\ 
-   Admin
-   - Add Custom Footer 
+   
+   Custom Admin Footer
+    
 \* =============================================================== */ 
 add_filter( 'admin_footer_text', 'backend_entwickelt_mit_herz' );
 function backend_entwickelt_mit_herz( $text ) {
 	return ('<span style="color:black;">Entwickelt mit </span><span style="color: red;font-size:20px;vertical-align:-3px">&hearts;</span><span style="color:black;"</span><span> von <a href="https://ulrich.digital" target="_blank">ulrich.digital</a></span>' );
 }
+
 
 
 
@@ -449,6 +382,38 @@ if( function_exists('acf_add_options_page') ) {
 	acf_add_options_page();
 }
 
+/* =============================================================== *\ 
+
+ 	 Blocks 
+
+\* =============================================================== */ 
+
+/* =============================================================== *\ 
+   Block-Variations
+\* =============================================================== */ 
+
+function enqueue_block_variations() {
+	$url_h0 = get_stylesheet_directory_uri() . '/blocks/block_variations.js';
+	wp_enqueue_script('block-variations', $url_h0, array( 'wp-blocks', 'wp-dom-ready', 'wp-edit-post' ));
+}
+add_action( 'enqueue_block_editor_assets', 'enqueue_block_variations' );  
+
+/* =============================================================== *\ 
+   Custom Block-Categories 
+\* =============================================================== */ 
+
+add_filter( 'block_categories_all', function( $categories, $post ) {
+	$my_categories = array_merge(
+		array(
+			array(
+				'slug'  => 'my_slug',
+				'title' => 'My Title',
+			),
+		),
+		$categories
+	);
+	return $my_categories;    
+}, 10, 2 );  
 
 /* =============================================================== *\ 
    ACF-Blocks 
@@ -793,10 +758,140 @@ add_action('admin_footer-post-new.php', 'my_custom_status_add_in_post_page');
 	
 \* =============================================================== */ 
 
-
-
 /* =============================================================== *\ 
 	 Breadcrumb - Menu
 	 @template archive.php
 \* =============================================================== */ 
 //https://kulturbanause.de/blog/wordpress-breadcrumb-navigation-ohne-plugin/
+
+/* =============================================================== *\ 
+   header > Clean-up
+\* =============================================================== */ 
+remove_action( 'wp_head', 'feed_links_extra', 3 ); // Display the links to the extra feeds such as category feeds
+remove_action( 'wp_head', 'feed_links', 2 ); // Display the links to the general feeds: Post and Comment Feed
+remove_action( 'wp_head', 'rsd_link' ); // Display the link to the Really Simple Discovery service endpoint, EditURI link
+remove_action( 'wp_head', 'wlwmanifest_link' ); // Display the link to the Windows Live Writer manifest file.
+remove_action( 'wp_head', 'index_rel_link' ); // index link
+remove_action( 'wp_head', 'parent_post_rel_link', 10, 0 ); // prev link
+remove_action( 'wp_head', 'start_post_rel_link', 10, 0 ); // start link
+remove_action( 'wp_head', 'adjacent_posts_rel_link', 10, 0 ); // Display relational links for the posts adjacent to the current post.
+remove_action( 'wp_head', 'wp_generator' ); // Display the XHTML generator that is generated on the wp_head hook, WP version
+remove_action( 'wp_head', 'rest_output_link_wp_head');
+remove_action( 'wp_head', 'wp_oembed_add_discovery_links');
+remove_action( 'template_redirect', 'rest_output_link_header', 11, 0 );
+/// emojis weg
+add_action('init', 'remove_emoji');
+function remove_emoji(){
+	remove_action('wp_head', 'print_emoji_detection_script', 7);
+	remove_action('admin_print_scripts', 'print_emoji_detection_script');
+	remove_action('admin_print_styles', 'print_emoji_styles');
+	remove_action('wp_print_styles', 'print_emoji_styles');
+	remove_filter('the_content_feed', 'wp_staticize_emoji');
+	remove_filter('comment_text_rss', 'wp_staticize_emoji');
+	remove_filter('wp_mail', 'wp_staticize_emoji_for_email');
+	add_filter('tiny_mce_plugins', 'remove_tinymce_emoji');
+}
+
+function remove_tinymce_emoji($plugins){
+	if (!is_array($plugins)){
+		return array();
+	}
+	return array_diff($plugins, array('wpemoji'));
+}
+
+/* =============================================================== *\ 
+ 	 header > add schema links
+\* =============================================================== */ 
+function ud_schema_type(){
+    $schema = 'https://schema.org/';
+    if (is_single()) {
+        $type = "Article";
+    } elseif (is_author()) {
+        $type = 'ProfilePage';
+    } elseif (is_search()) {
+        $type = 'SearchResultsPage';
+    } else {
+        $type = 'WebPage';
+    }
+    echo 'itemscope itemtype="' . $schema . $type . '"';
+}  
+
+add_filter('nav_menu_link_attributes', 'ud_schema_url', 10);
+function ud_schema_url($atts){
+    $atts['itemprop'] = 'url';
+    return $atts;
+}
+if (!function_exists('ud_wp_body_open')) {
+    function ud_wp_body_open()
+    {
+        do_action('wp_body_open');
+    }
+}
+add_action('wp_body_open', 'ud_skip_link', 5);
+function ud_skip_link(){
+    echo '<a href="#content" class="skip-link screen-reader-text">Skip to the content</a>';
+}
+
+/* =============================================================== *\ 
+   Add Title-Separator 
+\* =============================================================== */ 
+add_filter( 'document_title_separator', 'document_title_separator' );
+function document_title_separator( $sep ) {
+    $sep = '|';
+    return $sep;
+}
+
+/* =============================================================== *\ 
+   Add ... to title, if necessary 
+\* =============================================================== */ 
+add_filter( 'the_title', 'mytitle' );
+function mytitle( $title ) {
+    if ( $title == '' ) {
+        return '...';
+    } else {
+        return $title;
+    }
+}
+
+/* =============================================================== *\ 
+   Remove automatically P-Tags 
+\* =============================================================== */ 
+$priority = has_filter( 'the_content', 'wpautop' );
+if ( false !== $priority ) {
+	remove_filter( 'the_content', 'wpautop', $priority );
+}
+
+/* =============================================================== *\ 
+   Add Browser Class to html-tag
+\* =============================================================== */ 
+add_action('wp_footer', 'ud_footer');
+function ud_footer(){ ?>
+    <script>
+    jQuery(document).ready(function($) {
+        var deviceAgent = navigator.userAgent.toLowerCase();
+        if (deviceAgent.match(/(iphone|ipod|ipad)/)) {
+            $("html").addClass("ios");
+            $("html").addClass("mobile");
+        }
+    
+        if (deviceAgent.match(/(Android)/)) {
+            $("html").addClass("android");
+            $("html").addClass("mobile");
+        }
+    
+        if (navigator.userAgent.search("MSIE") >= 0) {
+            $("html").addClass("ie");
+        } else if (navigator.userAgent.search("Chrome") >= 0) {
+            $("html").addClass("chrome");
+        } else if (navigator.userAgent.search("Firefox") >= 0) {
+            $("html").addClass("firefox");
+        } else if (navigator.userAgent.search("Safari") >= 0 && navigator.userAgent.search("Chrome") < 0) {
+            $("html").addClass("safari");
+        } else if (navigator.userAgent.search("Opera") >= 0) {
+            $("html").addClass("opera");
+        }
+    });
+    </script>
+<?php
+} 
+
