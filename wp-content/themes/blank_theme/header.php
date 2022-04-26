@@ -61,7 +61,7 @@ $test_2 = get_stylesheet_directory( __DIR__ . '/style.css' );
 echo "<br />";
 var_dump("test_1: " . $test_1);
 echo "<br />";
-var_dump("test_2: " . $test_1);
+var_dump("test_2: " . $test_2);
 
 
 ?>
