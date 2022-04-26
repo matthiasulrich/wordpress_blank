@@ -54,3 +54,12 @@ if(isIE){
 			</nav>
 		</header>
 		<div id="content_container">
+<?php 
+$test_1 = get_stylesheet_directory_uri( '/style.css', __FILE__ );
+$test_2 = get_stylesheet_directory( __DIR__ . '/style.css' );
+
+var_dump("test_1" . $test_1);
+
+
+
+?>
