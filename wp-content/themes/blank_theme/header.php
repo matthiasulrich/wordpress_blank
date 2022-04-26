@@ -58,8 +58,10 @@ if(isIE){
 $test_1 = get_stylesheet_directory_uri( '/style.css', __FILE__ );
 $test_2 = get_stylesheet_directory( __DIR__ . '/style.css' );
 
-var_dump("test_1" . $test_1);
-
+echo "<br />";
+var_dump("test_1: " . $test_1);
+echo "<br />";
+var_dump("test_2: " . $test_1);
 
 
 ?>
