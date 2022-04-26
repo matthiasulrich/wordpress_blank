@@ -69,8 +69,9 @@ function add_frontend_styles() {
 	wp_enqueue_style( 'main', get_stylesheet_directory_uri() . "/style.css", [], filemtime( get_stylesheet_directory() . "/style.css" ) );
 
 
-	wp_register_style('font_awesome', get_stylesheet_directory_uri() . '/webfonts/all.css', array(), '1.0', 'all');
-    wp_enqueue_style('font_awesome');
+	wp_enqueue_style('font_awesome', get_stylesheet_directory_uri() . '/webfonts/all.css', [], filemtime( get_stylesheet_directory() . "/style.css" ) );
+
+    //wp_enqueue_style('font_awesome');
 
 	/*
 	wp_register_style('adobe_fonts', 'https://use.typekit.net/owr0crc.css', array(), '1.0', 'all');
