@@ -64,8 +64,11 @@ function add_frontend_javascripts() {
 add_action('wp_enqueue_scripts', 'add_frontend_styles');
 function add_frontend_styles() {
 	//wp_register_style( $handle, $src, $deps, $ver, $media );
-    wp_register_style('main',  get_stylesheet_directory_uri() . "/style.css?" . date("h:i:s"), array(), '1.0', 'all');
-    wp_enqueue_style('main');
+	//wp_register_style('main',  get_stylesheet_directory_uri() . "/style.css?" . date("h:i:s"), array(), '1.0', 'all');
+    //wp_enqueue_style('main');
+	wp_enqueue_style( 'main', get_stylesheet_directory_uri( '/style.css', __FILE__ ), [], filemtime( get_stylesheet_directory( __DIR__ . '/style.css' ) ) );
+
+
 	wp_register_style('font_awesome', get_stylesheet_directory_uri() . '/webfonts/all.css', array(), '1.0', 'all');
     wp_enqueue_style('font_awesome');
 
