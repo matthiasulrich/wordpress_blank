@@ -56,9 +56,11 @@ function add_frontend_javascripts() {
 	$url_h3 = get_stylesheet_directory_uri().'/js/ulrich.js';
     //wp_enqueue_script( 'eigener_Name', pfad_zum_js, abhaengigkeit (zb jquery zuerst laden), versionsnummer, bool (true=erst im footer laden) );
 	//wp_enqueue_script( 'jquery' );
-	wp_enqueue_script( 'handler_name_0', $url_h0, array('jquery'), null, false );
-	wp_enqueue_script( 'handler_name_2', $url_h2, array('jquery'), null, true );
-	wp_enqueue_script( 'handler_name_3', $url_h3, array('jquery'),  filemtime( get_stylesheet_directory() . "/js/ulrich.js" ) );
+	//wp_enqueue_script( 'handler_name_0', $url_h0, array('jquery'), null, false );
+	//wp_enqueue_script( 'handler_name_2', $url_h2, array('jquery'), null, true );
+	wp_enqueue_script( 'jquery-ui', get_stylesheet_directory_uri().'/js/jquery-ui.min.js', array('jquery'),  filemtime( get_stylesheet_directory() . "/js/jquery-ui.min.js" ) );
+	wp_enqueue_script( 'isotope', get_stylesheet_directory_uri().'/js/isotope.pkgd.min.js', array('jquery'),  filemtime( get_stylesheet_directory() . "/js/isotope.pkgd.min.js" ) );
+	wp_enqueue_script( 'ulrich_digital', get_stylesheet_directory_uri().'/js/ulrich.js', array('jquery'),  filemtime( get_stylesheet_directory() . "/js/ulrich.js" ) );
 }
 
 // Frontend CSS
