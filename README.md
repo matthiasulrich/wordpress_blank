@@ -8,6 +8,7 @@ Wordpress Development Theme by [ulrich.digital](https://ulrich.digital)
 ### with Plesk
 1. Install Wordpress with the Plesk Wordpress Tool
 2. Go to GIT and paste the URL of this repository
+3. Pull this repository
 
 ### with Docker
 1. Download this repository as ZIP-file
