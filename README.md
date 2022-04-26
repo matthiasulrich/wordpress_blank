@@ -13,7 +13,7 @@ Wordpress Development Theme by [ulrich.digital](https://ulrich.digital)
 1. Download this repository as ZIP-File
 2. Decompress the ZIP-File on your harddisk
 3. Open your Terminal (mac) or CMD / Bash App 
-4. Navigate to the Folder from this repository
+4. Navigate to the folder from this repository
 5. Type: docker compose up -d
 
 Note: [Here](https://webdev.ulrich.digital/plugins-selber-entwickeln/) you will find a description, how you can develop with Docker (in german).
@@ -21,7 +21,7 @@ Note: [Here](https://webdev.ulrich.digital/plugins-selber-entwickeln/) you will 
 
 
 ## Roadmap
-- Activate Plugins automatically
-- Set Permanlinks automatically
-- Set Timezone automatically
+- Activate plugins automatically
+- Set permanlinks automatically
+- Set timezone automatically
 - Options page for topic-specific phrases (e.g. "Search Results for...")
