@@ -16,6 +16,8 @@ Wordpress Development Theme by [ulrich.digital](https://ulrich.digital)
 4. Navigate to the Folder from this repository
 5. Type: docker compose up -d
 
+Note: [Here](https://webdev.ulrich.digital/plugins-selber-entwickeln/) you will find a description, how you can develop with Docker (in german).
+
 
 
 ## Roadmap
