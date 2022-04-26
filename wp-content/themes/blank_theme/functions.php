@@ -64,18 +64,14 @@ function add_frontend_javascripts() {
 add_action('wp_enqueue_scripts', 'add_frontend_styles');
 function add_frontend_styles() {
 	//wp_register_style( $handle, $src, $deps, $ver, $media );
-	//wp_register_style('main',  get_stylesheet_directory_uri() . "/style.css?" . date("h:i:s"), array(), '1.0', 'all');
-    //wp_enqueue_style('main');
-	wp_enqueue_style( 'main', get_stylesheet_directory_uri() . "/style.css", [], filemtime( get_stylesheet_directory() . "/style.css" ) );
-
-
+	wp_register_style( 'main', get_stylesheet_directory_uri() . "/style.css", [], filemtime( get_stylesheet_directory() . "/style.css" ) );
+	wp_enqueue_style('main');
 	wp_enqueue_style('font_awesome', get_stylesheet_directory_uri() . '/webfonts/all.css', [], filemtime( get_stylesheet_directory() . "/style.css" ) );
-
-    //wp_enqueue_style('font_awesome');
 
 	/*
 	wp_register_style('adobe_fonts', 'https://use.typekit.net/owr0crc.css', array(), '1.0', 'all');
 	wp_enqueue_style('adobe_fonts');
+	
 	wp_register_style('slick',  get_stylesheet_directory_uri() . '/js/slick.css', array(), '1.0', 'all');
 	wp_enqueue_style('slick');
 	wp_register_style('slick-lightbox', get_stylesheet_directory_uri() . '/js/slick-lightbox.css', array(), '1.0', 'all');
