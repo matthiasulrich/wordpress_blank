@@ -1,21 +1,25 @@
 # wordpress_blank
 
-Entwicklungs-Theme für ulrich.ulrich_digital
+Wordpress Development Theme by [ulrich.digital](https://ulrich.digital)
 
-1. Wordpress über Plesk installieren
-2. Dieses Resporitory verlinken
 
-## Docker
-1. Diesen Code downloaden
-2. Im Terminal auf Ordner navigieren
-3. docker compose up -d
+## Usage
+
+### with Plesk
+1. Install Wordpress with Plesk Wordpress-Tool
+2. Go to GIT and paste the URL of this repository
+
+### with Docker
+1. Download this repository as ZIP-File
+2. Decompress the ZIP-File on your harddisk
+3. Open your Terminal (mac) or CMD / Bash App 
+4. Navigate to the Folder from this repository
+5. Type: docker compose up -d
+
+
 
 ## Roadmap
-- Plugins automatisch aktivieren
-- Permalinks automatisch einstellen
-- Zeitzone automatisch einstellen
-
-### "Theme Sätze"
-z. B. "Suchergebnisse für"
-Wie/Wo hinterlegen? Evtl. als Optionen-Seite hinterlegen?
-https://codex.wordpress.org/Creating_Options_Pages
+- Activate Plugins automatically
+- Set Permanlinks automatically
+- Set Timezone automatically
+- Options page for topic-specific phrases (e.g. "Search Results for...")
