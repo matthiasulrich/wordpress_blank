@@ -20,7 +20,6 @@ Wordpress Development Theme by [ulrich.digital](https://ulrich.digital)
 Note: [Here](https://webdev.ulrich.digital/plugins-selber-entwickeln/) you find a description, how you can develop with Docker (in german).
 
 
-
 ## Roadmap
 - Activate plugins automatically
 - Set permanlinks automatically
