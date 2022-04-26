@@ -55,7 +55,7 @@ if(isIE){
 		</header>
 		<div id="content_container">
 <?php 
-$test_1 = get_stylesheet_directory_uri( '/style.css', __FILE__ );
+$test_1 = get_stylesheet_directory_uri() . "/style.css";
 $test_2 = get_stylesheet_directory( __DIR__ . '/style.css' );
 
 echo "<br />";
