@@ -8,162 +8,33 @@ setlocale(LC_TIME, "de_DE.utf8");
 
 /* =============================================================== *\ 
  	 
-	 Customized Core
+	 Backend
 	 
 \* =============================================================== */ 
 
+/* =============================================================== *\
+   Backend JavaScripts + CSS
+\* =============================================================== */
 
-/* =============================================================== *\ 
-   
-   JavaScripts
-   AJAX
-   Styles
-   
-\* =============================================================== */ 
-
-
-// Backend JS + AJAX
-add_action( 'admin_enqueue_scripts', 'add_backend_javascripts' );
-function add_backend_javascripts() {
+add_action( 'admin_enqueue_scripts', 'ud_add_backend_javascripts' );
+function ud_add_backend_javascripts() {
 	wp_enqueue_media(); // Enqueues all scripts, styles, settings, and templates necessary to use all media JS APIs.
    	
+	wp_enqueue_style( 'admin-styles', get_stylesheet_directory_uri() . "/style-admin.css", [], filemtime( get_stylesheet_directory() . "/style-admin.css" ) );
+	wp_enqueue_style( 'font_awesome', get_stylesheet_directory_uri() . "/css/all.css", [], filemtime( get_stylesheet_directory() . "/css/all.css" ) );
+	
 	wp_enqueue_script( 'jquery' );
 	wp_enqueue_script( 'my-admin-js', get_stylesheet_directory_uri() . '/js/ulrich_admin.js', array('jquery'),  filemtime( get_stylesheet_directory() . "/js/ulrich_admin.js" ), true );
 
-	wp_localize_script( 'my-admin-js', 'myAjax', array( 
-		'ajaxurl' => admin_url( 'admin-ajax.php' ), 
-		'post_id' => get_the_ID(),
-		)
+	wp_localize_script( 'my-admin-js', 'myAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'post_id' => get_the_ID(),)
 	);        
 }
 
-// Backend CSS
-add_action('admin_enqueue_scripts', 'add_backend_styles');  
-function add_backend_styles() {		
-	wp_enqueue_style( 'admin-styles', get_stylesheet_directory_uri() . "/style-admin.css", [], filemtime( get_stylesheet_directory() . "/style-admin.css" ) );
-	wp_enqueue_style( 'font_awesome', get_stylesheet_directory_uri() . "/css/all.css", [], filemtime( get_stylesheet_directory() . "/css/all.css" ) );
-}
-
-
-// Frontend JS
-add_action( 'wp_enqueue_scripts', 'add_frontend_javascripts' );
-function add_frontend_javascripts() {
-    //wp_enqueue_script( 'eigener_Name', pfad_zum_js, abhaengigkeit (zb jquery zuerst laden), versionsnummer, bool (true=erst im footer laden) );
-	wp_enqueue_script( 'jquery-ui', get_stylesheet_directory_uri().'/js/jquery-ui.min.js', array('jquery'),  filemtime( get_stylesheet_directory() . "/js/jquery-ui.min.js" ), false );
-	wp_enqueue_script( 'isotope', get_stylesheet_directory_uri().'/js/isotope.pkgd.min.js', array('jquery'),  filemtime( get_stylesheet_directory() . "/js/isotope.pkgd.min.js" ), true );
-	wp_enqueue_script( 'ulrich_digital', get_stylesheet_directory_uri().'/js/ulrich.js', array('jquery'),  filemtime( get_stylesheet_directory() . "/js/ulrich.js" ), true );
-}
-
-// Frontend CSS
-add_action('wp_enqueue_scripts', 'add_frontend_styles');
-function add_frontend_styles() {
-	//wp_register_style( $handle, $src, $deps, $ver, $media );
-	wp_enqueue_style( 'main', get_stylesheet_directory_uri() . "/style.css", [], filemtime( get_stylesheet_directory() . "/style.css" ) );
-	wp_enqueue_style('font_awesome', get_stylesheet_directory_uri() . '/webfonts/all.css', [], filemtime( get_stylesheet_directory() . "/style.css" ) );
-
-	/*
-	wp_enqueue_style('adobe_fonts', 'https://use.typekit.net/owr0crc.css', [], '1.0', 'all');	
-	wp_enqueue_style('slick', get_stylesheet_directory_uri() . '/js/slick.css', [], filemtime( get_stylesheet_directory() . "/js/slick.css" ) );
-	wp_enqueue_style('slick-lightbox', get_stylesheet_directory_uri() . '/js/slick-lightbox.css', [], filemtime( get_stylesheet_directory() . "/js/slick-lightbox.css" ) );
-    */
-}
-
-  
-/* =============================================================== *\ 
-   Remove Admin-Menu-Elements
-\* =============================================================== */ 
-add_action('admin_menu', 'remove_menus');
-function remove_menus () {
-	global $menu;
-	$restricted = array(__('Beiträge'), __('Kommentare'));
-	$restricted = array(__('Kommentare'));
-	end ($menu);
-	while (prev($menu)){
-		$value = explode(' ',$menu[key($menu)][0]);
-		if(in_array($value[0] != NULL?$value[0]:"" , $restricted)){
-			unset($menu[key($menu)]);
-		}
-	}
-}
-
-
-/* =============================================================== *\ 
-   Remove Admin-Menu-Bar-Elements
-\* =============================================================== */ 
-add_action( 'wp_before_admin_bar_render', 'ud_admin_bar_render' );
-function ud_admin_bar_render() {
-	global $wp_admin_bar;
-	$wp_admin_bar->remove_menu('comments');
-	$wp_admin_bar->remove_menu('wp-logo');
-	$wp_admin_bar->remove_menu('new-content');
-	/*
-	my-account – link to your account (avatars disabled)
-	my-account-with-avatar – link to your account (avatars enabled)
-	my-blogs – the "My Sites" menu if the user has more than one site
-	get-shortlink – provides a Shortlink to that page
-	edit – link to the Edit/Write-Post page
-	new-content – link to the "Add New" dropdown list
-	comments – link to the "Comments" dropdown
-	appearance – link to the "Appearance" dropdown
-	updates – the "Updates" dropdown
-	*/
-}
-
-
-/* =============================================================== *\ 
-   Custom Admin-Menu Order
-\* =============================================================== */ 
-/* Benutzerdefinierte Reihenfolge des Backend-Menu */
-//add_filter( 'custom_menu_order', '__return_true' );
-//add_filter( 'menu_order', 'ud_custom_menu_order', 10, 1 );
-function ud_custom_menu_order( $menu_ord ) {
-	if ( !$menu_ord ) return true;
- 	return array(
-     'index.php', // Dashboard
-     'link-manager.php', // Links
-     'edit.php?post_type=page', // Pages
-     'users.php', // Users
-     'upload.php', // Media
-     'separator1', // First separator
-     'themes.php', // Appearance
-     'plugins.php', // Plugins
-     'tools.php', // Tools
-     'options-general.php', // Settings
-     'separator2', // Second separator
-     'separator-last', // Last separator
- 	);
-}
-
-/* =============================================================== *\ 
-   Removing panels (meta boxes) in the Block Editor  
-\* =============================================================== */ 
-// https://newbedev.com/removing-panels-meta-boxes-in-the-block-editor
-/*
-function ud_register_files() {
-    // script file
-    wp_register_script('ud-block-script', get_stylesheet_directory_uri() .'/js/block-script.js', array( 'wp-blocks', 'wp-edit-post' )); // adjust the path to the JS file
-    // register block editor script
-    register_block_type( 'cc/ma-block-files', array('editor_script' => 'ud-block-script') );
-}
-add_action( 'init', 'ud_register_files' );
-*/
 
 /* =============================================================== *\ 
    Add Options-Page 
 \* =============================================================== */ 
 //include('theme_options.php');
-
-
-/* =============================================================== *\ 
-   Load Comment-Reply-Script > kann glaub gelöscht werden 2204
-\* =============================================================== */ 
-/*add_action( 'comment_form_before', 'enqueue_comment_reply_script' );
-function enqueue_comment_reply_script() {
-	if ( get_option( 'thread_comments' ) ) {
-		wp_enqueue_script( 'comment-reply' );
-	}
-}
-*/
 
 
 /* =============================================================== *\ 
@@ -195,89 +66,10 @@ function ulrich_digital_setup(){
 }
 
 
- 
 /* =============================================================== *\ 
-
- 	 Media 
-
+   Enable Widgets 
 \* =============================================================== */ 
 
-// enable oversized Images
-add_filter('big_image_size_threshold', '__return_false');
-
-// Add Custom Image-Sizes 
-//add_action('after_setup_theme', 'eigene_bildgroessen', 11);
-function eigene_bildgroessen() {
-	add_image_size('facebook_share', 1200, 630, true);
-	add_image_size('startseiten_slider', 2000, 1125, true);
-	add_image_size('angebot_header_bild', 2000, 2000, false);
-	add_image_size('galerie_thumb', 700, 700, true);
-}
-
-// enable SVG 
-add_filter('upload_mimes', 'add_svg_to_upload_mimes');
-function add_svg_to_upload_mimes($upload_mimes){
-	$upload_mimes['svg'] = 'image/svg+xml';
-	$upload_mimes['svgz'] = 'image/svg+xml';
-	return $upload_mimes;
-}
-
-/* Add Image-Sizes to Backend-Choose */
-//add_filter('image_size_names_choose', 'bildgroessen_auswaehlen');
-function bildgroessen_auswaehlen($sizes) {
-	$custom_sizes = array('facebook_share' => 'Facebook-Vorschaubild');
-	return array_merge($sizes, $custom_sizes);
-}
-
-// Remove not wanted WP-Image-Sizes
-add_filter('intermediate_image_sizes_advanced', 'ud_image_insert_override');
-function ud_image_insert_override($sizes){
-    unset($sizes['medium_large']);
-    unset($sizes['1536x1536']);
-    unset($sizes['2048x2048']);
-    return $sizes;
-}  
-
-// Remove "Load-More"-Button in Media-Library 
-add_filter( 'media_library_infinite_scrolling', '__return_true' );
-
-// Allow Contributors to uplaod media 
-if ( current_user_can('contributor') && !current_user_can('upload_files') ){
-    add_action('admin_init', 'allow_contributor_uploads');
-}
-function allow_contributor_uploads() {
-    $contributor = get_role('contributor');
-    $contributor->add_cap('upload_files');
-}
-
-// Regenerate Image-Sizes   
-/*
-require_once(ABSPATH . 'wp-admin/includes/image.php');
-class GB_regen_media {
-    public function gb_regenerate($imageId) {
-        $imagePath = wp_get_original_image_path($imageId);
-        if ($imagePath && file_exists($imagePath)) {
-            wp_generate_attachment_metadata($imageId, $imagePath);
-        }
-    }
-}
-
-function gb_regen_load() {
-	$gb_regen_media = new GB_regen_media();
-	for($i = 5752; $i <= 5762; $i++): // > Add here the Image-ID's
-		$gb_regen_media->gb_regenerate($i);
-	endfor;
-}
-add_action('init', 'gb_regen_load');
-*/
-
-
-/* =============================================================== *\ 
-
-   Widgets 
-
-\* =============================================================== */ 
-add_action( 'widgets_init', 'ud_widgets_init' );
 function ud_widgets_init() {
 	register_sidebar( array (
 		'name' =>'Sidebar Widget Area',
@@ -288,89 +80,161 @@ function ud_widgets_init() {
 		'after_title' => '</h3>',
 	));
 }
-
-/* =============================================================== *\ 
-   
-   Custom Admin-Logo 
-   
-\* =============================================================== */ 
-add_action( 'login_enqueue_scripts', 'my_login_logo' );
-function my_login_logo() { ?>
-    <style type="text/css">
-        #login h1 a, .login h1 a {
-            background-image: url(<?php echo get_stylesheet_directory_uri(); ?>/images/BG_logo_rgb.svg);
-            padding-bottom: 60px;
-            width:320px;
-            background-repeat: no-repeat;
- 			background-size: 250px auto;
-        }
-    </style>
-<?php }
-
-/* =============================================================== *\ 
-   
-   Custom Admin Footer
-    
-\* =============================================================== */ 
-add_filter( 'admin_footer_text', 'backend_entwickelt_mit_herz' );
-function backend_entwickelt_mit_herz( $text ) {
-	return ('<span style="color:black;">Entwickelt mit </span><span style="color: red;font-size:20px;vertical-align:-3px">&hearts;</span><span style="color:black;"</span><span> von <a href="https://ulrich.digital" target="_blank">ulrich.digital</a></span>' );
-}
-
-
-
-
-
-/* =============================================================== *\ 
-   Custom-Post-Types 
-\* =============================================================== */ 
-//add_action('init','ab_register_post_type_touren');
-function ab_register_post_type_touren(){
-	$supports = array('title', 'editor', 'thumbnail','post-thumbnails', 'custom-fields', 'revisions');
-	$labels = array(
-		'menu_name' => 'Touren',
-	    'name' => 'Touren',
-	    'singular_name' => 'Touren',
-	    'add_new' => 'Tour hinzuf&uuml;gen',
-	    'add_new_item' => 'Neue Tour hinzuf&uuml;gen',
-	    'edit_item' => 'Tour bearbeiten',
-	    'new_item' => 'Neue Tour',
-	    'view_item' => 'Tour anzeigen',
-	    'search_items' => 'Tour suchen',
-	    'not_found' => 'Keibe Tour gefunden',
-	    'not_found_in_trash' => 'Keine Tour im Papierkorb',
-		);
-	$touren_args = array(
-	    'supports' => $supports,
-	    'labels' => $labels,
-	    'description' => 'Post-Type f&uuml;r Touren',
-	    'public' => true,
-	    'show_in_nav_menus' => true,
-	    'show_in_menu' => true,
-		'show_in_rest' => true,
-	    'has_archive' => true,
-	    'query_var' => true,
-		'menu_icon' => 'dashicons-hammer',
-	    'taxonomies' => array('topics', 'category'),
-	    'rewrite' => array(
-	        'slug' => 'touren',
-	        'with_front' => true
-	   		),
-		);
-	register_post_type('touren', $touren_args);
-}
-
-/* =============================================================== *\ 
-
- 	 Customized Plugins
-
-\* =============================================================== */ 
+add_action( 'widgets_init', 'ud_widgets_init' );
   
-/* ACF - Options-Page */ 
-if( function_exists('acf_add_options_page') ) {
-	acf_add_options_page();
+  
+  
+/* =============================================================== *\ 
+
+ 	 Media 
+
+\* =============================================================== */ 
+
+/* =============================================================== *\ 
+ 	 enable oversized images 
+\* =============================================================== */ 
+ //add_filter('big_image_size_threshold', '__return_false');
+
+ 
+/* =============================================================== *\ 
+   Remove unused image sizes 
+\* =============================================================== */ 
+
+function ud_remove_unused_image_sizes($sizes){
+	unset($sizes['medium_large']);
+	unset($sizes['1536x1536']);
+	unset($sizes['2048x2048']);
+	return $sizes;
+}  
+//add_filter('intermediate_image_sizes_advanced', 'ud_remove_unused_image_sizes');
+
+
+/* =============================================================== *\ 
+   Add custom image sizes  
+\* =============================================================== */ 
+
+function ud_add_custom_image_sizes() {
+   add_image_size('facebook_share', 1200, 630, true);
+   add_image_size('startseiten_slider', 2000, 1125, true);
+   add_image_size('angebot_header_bild', 2000, 2000, false);
+   add_image_size('galerie_thumb', 700, 700, true);
+}
+//add_action('after_setup_theme', 'ud_add_custom_image_sizes', 11);
+
+
+/* =============================================================== *\ 
+   Add custom image sizes to backend choose
+\* =============================================================== */ 
+ 
+function ud_add_custom_image_sizes_to_backend_choose($sizes) {
+	$custom_sizes = array('facebook_share' => 'Facebook-Vorschaubild');
+	return array_merge($sizes, $custom_sizes);
+}
+//add_filter('image_size_names_choose', 'ud_add_custom_image_sizes_to_backend_choose');
+
+
+/* =============================================================== *\ 
+   Enable SVG 
+\* =============================================================== */ 
+ 
+function ud_add_svg_to_upload_mimes($upload_mimes){
+	$upload_mimes['svg'] = 'image/svg+xml';
+	$upload_mimes['svgz'] = 'image/svg+xml';
+	return $upload_mimes;
+}
+add_filter('upload_mimes', 'ud_add_svg_to_upload_mimes');
+
+
+/* =============================================================== *\
+   Allow Contributors to uplaod media
+\* =============================================================== */
+
+if ( current_user_can('contributor') && !current_user_can('upload_files') ){
+    add_action('admin_init', 'ud_allow_contributor_uploads');
+}
+function ud_allow_contributor_uploads() {
+    $contributor = get_role('contributor');
+    $contributor->add_cap('upload_files');
 }
 
+
+/* =============================================================== *\
+   Remove "Load-More"-Button in Media-Library
+\* =============================================================== */
+
+add_filter( 'media_library_infinite_scrolling', '__return_true' );
+
+
+/* =============================================================== *\
+   Regenerate image sizes
+\* =============================================================== */
+
+require_once(ABSPATH . 'wp-admin/includes/image.php');
+
+// Put the function in a class to make it more extendable
+class GB_regen_media {
+    public function gb_regenerate($imageId) {
+        $imagePath = wp_get_original_image_path($imageId);
+        if ($imagePath && file_exists($imagePath)) {
+            wp_generate_attachment_metadata($imageId, $imagePath);
+        }
+    }
+}
+
+function ud_regen_load() {
+	$gb_regen_media = new GB_regen_media();
+	//$i = imageID
+	for($i = 5752; $i <= 5762; $i++):
+		$gb_regen_media->gb_regenerate($i);
+	endfor;
+}
+//add_action('init', 'ud_regen_load');
+
+
+  
+/* =============================================================== *\ 
+
+ 	 Custom Post Types 
+
+\* =============================================================== */ 
+
+function ud_register_post_type_touren(){
+   $supports = array('title', 'editor', 'thumbnail','post-thumbnails', 'custom-fields', 'revisions');
+   $labels = array(
+	   'menu_name' => 'Touren',
+	   'name' => 'Touren',
+	   'singular_name' => 'Touren',
+	   'add_new' => 'Tour hinzuf&uuml;gen',
+	   'add_new_item' => 'Neue Tour hinzuf&uuml;gen',
+	   'edit_item' => 'Tour bearbeiten',
+	   'new_item' => 'Neue Tour',
+	   'view_item' => 'Tour anzeigen',
+	   'search_items' => 'Tour suchen',
+	   'not_found' => 'Keibe Tour gefunden',
+	   'not_found_in_trash' => 'Keine Tour im Papierkorb',
+	   );
+   $touren_args = array(
+	   'supports' => $supports,
+	   'labels' => $labels,
+	   'description' => 'Post-Type f&uuml;r Touren',
+	   'public' => true,
+	   'show_in_nav_menus' => true,
+	   'show_in_menu' => true,
+	   'show_in_rest' => true,
+	   'has_archive' => true,
+	   'query_var' => true,
+	   'menu_icon' => 'dashicons-hammer',
+	   'taxonomies' => array('topics', 'category'),
+	   'rewrite' => array(
+		   'slug' => 'touren',
+		   'with_front' => true
+		   ),
+	   );
+   register_post_type('touren', $touren_args);
+} 
+//add_action('init','ud_register_post_type_touren');
+  
+  
 /* =============================================================== *\ 
 
  	 Blocks 
@@ -378,40 +242,11 @@ if( function_exists('acf_add_options_page') ) {
 \* =============================================================== */ 
 
 /* =============================================================== *\ 
-   Block-Variations
+   ACF Blocks 
 \* =============================================================== */ 
-
-function enqueue_block_variations() {
-	$url_h0 = get_stylesheet_directory_uri() . '/blocks/block_variations.js';
-	wp_enqueue_script('block-variations', $url_h0, array( 'wp-blocks', 'wp-dom-ready', 'wp-edit-post' ));
-}
-add_action( 'enqueue_block_editor_assets', 'enqueue_block_variations' );  
-
-/* =============================================================== *\ 
-   Custom Block-Categories 
-\* =============================================================== */ 
-
-add_filter( 'block_categories_all', function( $categories, $post ) {
-	$my_categories = array_merge(
-		array(
-			array(
-				'slug'  => 'my_slug',
-				'title' => 'My Title',
-			),
-		),
-		$categories
-	);
-	return $my_categories;    
-}, 10, 2 );  
-
-/* =============================================================== *\ 
-   ACF-Blocks 
-\* =============================================================== */ 
-/*add_action('acf/init', 'my_acf_init_block_types');
-function my_acf_init_block_types() {
-
+function ud_acf_init_block_types() {
     if( function_exists('acf_register_block_type') ) {
-
+		
         acf_register_block_type(array(
             'name'              => 'touren-kurzinfo',
             'title'             => 'Touren-Kurzinfo',
@@ -462,12 +297,14 @@ function my_acf_init_block_types() {
 		));
     }
 }
+//add_action('acf/init', 'ud_acf_init_block_types');
+
 
 /* =============================================================== *\ 
-   Block-Template: Tourenportal 
+   Block-Template
    @link https://developer.wordpress.org/block-editor/developers/block-api/block-templates/
 \* =============================================================== */ 
-function block_template_tourenportal() {
+function ud_block_template_tourenportal() {
    $page_type_object = get_post_type_object( 'touren' );
    $page_type_object->template = [
 	   //[ 'core/group', [], [
@@ -479,28 +316,119 @@ function block_template_tourenportal() {
 	   //] ],
    ];
 }
-//add_action( 'init', 'block_template_tourenportal' );
-
-/* =============================================================== *\ 
-   Woocommerce 
-\* =============================================================== */ 
-/*Woocommerce Unterstützung Backend > WooCommerce > Status deklarieren */
-/*add_action( 'after_setup_theme', 'setup_woocommerce_support' ); 
-function setup_woocommerce_support() { 
-	add_theme_support('woocommerce'); 
-	} */
-
-
+//add_action( 'init', 'ud_block_template_tourenportal' );
 
 
 /* =============================================================== *\ 
-
-	Customized Back-End for Customer
-	
+   Custom Block-Categories 
 \* =============================================================== */ 
+
+/*add_filter( 'block_categories_all', function( $categories, $post ) {
+	$my_categories = array_merge(
+		array(
+			array(
+				'slug'  => 'my_slug',
+				'title' => 'My Title',
+			),
+		),
+		$categories
+	);
+	return $my_categories;    
+}, 10, 2 );  
+*/
+
+
+/* =============================================================== *\ 
+   Block-Variations
+\* =============================================================== */ 
+
+function enqueue_block_variations() {
+	$url_h0 = get_stylesheet_directory_uri() . '/blocks/block_variations.js';
+	wp_enqueue_script('block-variations', $url_h0, array( 'wp-blocks', 'wp-dom-ready', 'wp-edit-post' ));
+}
+//add_action( 'enqueue_block_editor_assets', 'enqueue_block_variations' );
+  
+  
+  
+/* =============================================================== *\ 
+   Remove Admin-Menu-Elements
+\* =============================================================== */ 
+function ud_remove_menus () {
+	global $menu;
+	$restricted = array(__('Beiträge'), __('Kommentare'));
+	$restricted = array(__('Kommentare'));
+	end ($menu);
+	while (prev($menu)){
+		$value = explode(' ',$menu[key($menu)][0]);
+		if(in_array($value[0] != NULL?$value[0]:"" , $restricted)){
+			unset($menu[key($menu)]);
+		}
+	}
+}
+add_action('admin_menu', 'ud_remove_menus');
+
+/* =============================================================== *\ 
+   Remove Admin-Menu-Bar-Elements
+\* =============================================================== */ 
+function ud_admin_bar_render() {
+	global $wp_admin_bar;
+	$wp_admin_bar->remove_menu('comments');
+	$wp_admin_bar->remove_menu('wp-logo');
+	$wp_admin_bar->remove_menu('new-content');
+	/*
+	my-account – link to your account (avatars disabled)
+	my-account-with-avatar – link to your account (avatars enabled)
+	my-blogs – the "My Sites" menu if the user has more than one site
+	get-shortlink – provides a Shortlink to that page
+	edit – link to the Edit/Write-Post page
+	new-content – link to the "Add New" dropdown list
+	comments – link to the "Comments" dropdown
+	appearance – link to the "Appearance" dropdown
+	updates – the "Updates" dropdown
+	*/
+}
+add_action( 'wp_before_admin_bar_render', 'ud_admin_bar_render' );
+
+/* =============================================================== *\ 
+   Admin-Menu custom order
+\* =============================================================== */ 
+/* r */
+function ud_custom_menu_order( $menu_ord ) {
+	if ( !$menu_ord ) return true;
+ 	return array(
+     'index.php', // Dashboard
+     'link-manager.php', // Links
+     'edit.php?post_type=page', // Pages
+     'users.php', // Users
+     'upload.php', // Media
+     'separator1', // First separator
+     'themes.php', // Appearance
+     'plugins.php', // Plugins
+     'tools.php', // Tools
+     'options-general.php', // Settings
+     'separator2', // Second separator
+     'separator-last', // Last separator
+ 	);
+}
+//add_filter( 'ud_custom_menu_order', '__return_true' );
+//add_filter( 'menu_order', 'ud_custom_menu_order', 10, 1 );
+  
+    
+/* =============================================================== *\ 
+   Add Custom Admin Footer
+\* =============================================================== */ 
+
+function backend_entwickelt_mit_herz( $text ) {
+	return ('<span style="color:black;">Entwickelt mit </span><span style="color: red;font-size:20px;vertical-align:-3px">&hearts;</span><span style="color:black;"</span><span> von <a href="https://ulrich.digital" target="_blank">ulrich.digital</a></span>' );
+}
+add_filter( 'admin_footer_text', 'backend_entwickelt_mit_herz' );
   
 
+/* =============================================================== *\ 
 
+ 	 Users 
+
+\* =============================================================== */ 
 /* =============================================================== *\ 
 	 Super-Admins 
 	 - kann abgefragt werden mit: if(is_my_super_admin() == true)
@@ -520,7 +448,14 @@ function is_my_super_admin(){
 	endforeach;
 	return($is_super_admin);
 }
-*/
+*/  
+  
+/* =============================================================== *\ 
+
+ 	 Hide in Admin 
+
+\* =============================================================== */ 
+  
 /* =============================================================== *\ 
  	 Gewisse Seiten im Wordpress-Admin-Bereich ausblenden 
 	 - per Kategorie
@@ -627,6 +562,13 @@ function hide_categories_by_css() {
 	<?php
 }
 */
+
+/* =============================================================== *\ 
+
+ 	 Customize Editor 
+
+\* =============================================================== */ 
+
 /* =============================================================== *\ 
  	 Admin-Columns anpassen 
 	 !! Achtung: Werte müssen als Meta-Keys vorhanden sein !!
@@ -684,13 +626,12 @@ function touren_posts_orderby( $query ) {
 		$query->set('orderby','meta_value');
 	}
 }
-*/
-
+*/  
 
 /* =============================================================== *\ 
  	 Custom Post Status 
 \* =============================================================== */ 
-/*function wpdocs_custom_post_status(){
+/*function ud_custom_post_status(){
     register_post_status( 'archiv', array(
         'label'                     => 'Archiv',
         'public'                    => true,
@@ -703,7 +644,7 @@ function touren_posts_orderby( $query ) {
                     'dashicon'                  => 'dashicons-businessman',
     ) );
 }
-add_action( 'init', 'wpdocs_custom_post_status' );
+add_action( 'init', 'ud_custom_post_status' );
 
 
 add_filter( 'display_post_states', function( $statuses ) {
@@ -720,42 +661,60 @@ add_filter( 'display_post_states', function( $statuses ) {
 	endif;
 });
 
-function my_custom_status_add_in_quick_edit() {
+function ud_add_custom_status_in_quick_edit() {
 	echo "<script>
 	jQuery(document).ready( function() {
 	jQuery( 'select[name=\"_status\"]' ).append( '<option value=\"archiv\">Archiv</option>' );      
 	}); 
 	</script>";
 }
-add_action('admin_footer-edit.php','my_custom_status_add_in_quick_edit');
+add_action('admin_footer-edit.php','ud_add_custom_status_in_quick_edit');
 
-function my_custom_status_add_in_post_page() {
+function ud_add_custom_status_in_post_page() {
 	echo "<script>
 	jQuery(document).ready( function() {        
 	jQuery( 'select[name=\"post_status\"]' ).append( '<option value=\"archiv\">Archiv</option>' );
 	});
 	</script>";
 	}
-add_action('admin_footer-post.php', 'my_custom_status_add_in_post_page');
-add_action('admin_footer-post-new.php', 'my_custom_status_add_in_post_page');
+add_action('admin_footer-post.php', 'ud_add_custom_status_in_post_page');
+add_action('admin_footer-post-new.php', 'ud_add_custom_status_in_post_page');
 */
 
 
+
 /* =============================================================== *\ 
 
-	Customized Front-End for Customer
+ 	 Frontend 
+
+\* =============================================================== */ 
+  
+/* =============================================================== *\
+   Frontend JavaScripts + CSS
+\* =============================================================== */
+
+function ud_enqueue_frontend_scripts() {
+	//wp_register_style( $handle, $src, $deps, $ver, $media );
+	wp_enqueue_style( 'main', get_stylesheet_directory_uri() . "/style.css", [], filemtime( get_stylesheet_directory() . "/style.css" ) );
+	wp_enqueue_style('font_awesome', get_stylesheet_directory_uri() . '/webfonts/all.css', [], filemtime( get_stylesheet_directory() . "/style.css" ) );
+
+	/*
+	wp_enqueue_style('adobe_fonts', 'https://use.typekit.net/owr0crc.css', [], '1.0', 'all');	
+	wp_enqueue_style('slick', get_stylesheet_directory_uri() . '/js/slick.css', [], filemtime( get_stylesheet_directory() . "/js/slick.css" ) );
+	wp_enqueue_style('slick-lightbox', get_stylesheet_directory_uri() . '/js/slick-lightbox.css', [], filemtime( get_stylesheet_directory() . "/js/slick-lightbox.css" ) );
+    */
 	
-\* =============================================================== */ 
+    //wp_enqueue_script( 'eigener_Name', pfad_zum_js, abhaengigkeit (zb jquery zuerst laden), versionsnummer, bool (true=erst im footer laden) );
+	wp_enqueue_script( 'jquery-ui', get_stylesheet_directory_uri().'/js/jquery-ui.min.js', array('jquery'),  filemtime( get_stylesheet_directory() . "/js/jquery-ui.min.js" ), false );
+	wp_enqueue_script( 'isotope', get_stylesheet_directory_uri().'/js/isotope.pkgd.min.js', array('jquery'),  filemtime( get_stylesheet_directory() . "/js/isotope.pkgd.min.js" ), true );
+	wp_enqueue_script( 'ulrich_digital', get_stylesheet_directory_uri().'/js/ulrich.js', array('jquery'),  filemtime( get_stylesheet_directory() . "/js/ulrich.js" ), true );
+}
+add_action( 'wp_enqueue_scripts', 'ud_enqueue_frontend_scripts' );
 
-/* =============================================================== *\ 
-	 Breadcrumb - Menu
-	 @template archive.php
-\* =============================================================== */ 
-//https://kulturbanause.de/blog/wordpress-breadcrumb-navigation-ohne-plugin/
 
-/* =============================================================== *\ 
-   header > Clean-up
-\* =============================================================== */ 
+/* =============================================================== *\
+   Clean-Up <header>
+\* =============================================================== */
 remove_action( 'wp_head', 'feed_links_extra', 3 ); // Display the links to the extra feeds such as category feeds
 remove_action( 'wp_head', 'feed_links', 2 ); // Display the links to the general feeds: Post and Comment Feed
 remove_action( 'wp_head', 'rsd_link' ); // Display the link to the Really Simple Discovery service endpoint, EditURI link
@@ -769,8 +728,14 @@ remove_action( 'wp_head', 'rest_output_link_wp_head');
 remove_action( 'wp_head', 'wp_oembed_add_discovery_links');
 remove_action( 'template_redirect', 'rest_output_link_header', 11, 0 );
 /// emojis weg
-add_action('init', 'remove_emoji');
-function remove_emoji(){
+function ud_remove_tinymce_emoji($plugins){
+	if (!is_array($plugins)){
+		return array();
+	}
+	return array_diff($plugins, array('wpemoji'));
+}
+
+function ud_remove_emoji(){
 	remove_action('wp_head', 'print_emoji_detection_script', 7);
 	remove_action('admin_print_scripts', 'print_emoji_detection_script');
 	remove_action('admin_print_styles', 'print_emoji_styles');
@@ -778,19 +743,16 @@ function remove_emoji(){
 	remove_filter('the_content_feed', 'wp_staticize_emoji');
 	remove_filter('comment_text_rss', 'wp_staticize_emoji');
 	remove_filter('wp_mail', 'wp_staticize_emoji_for_email');
-	add_filter('tiny_mce_plugins', 'remove_tinymce_emoji');
+	add_filter('tiny_mce_plugins', 'ud_remove_tinymce_emoji');
 }
+add_action('init', 'ud_remove_emoji');  
 
-function remove_tinymce_emoji($plugins){
-	if (!is_array($plugins)){
-		return array();
-	}
-	return array_diff($plugins, array('wpemoji'));
-}
 
-/* =============================================================== *\ 
- 	 header > add schema links
-\* =============================================================== */ 
+/* =============================================================== *\
+   add schema links
+   > header.php
+\* =============================================================== */
+
 function ud_schema_type(){
     $schema = 'https://schema.org/';
     if (is_single()) {
@@ -803,84 +765,177 @@ function ud_schema_type(){
         $type = 'WebPage';
     }
     echo 'itemscope itemtype="' . $schema . $type . '"';
-}  
+}
 
-add_filter('nav_menu_link_attributes', 'ud_schema_url', 10);
+
+/* =============================================================== *\ 
+   Add itemprop to menu links 
+\* =============================================================== */ 
+ 
 function ud_schema_url($atts){
     $atts['itemprop'] = 'url';
     return $atts;
 }
-if (!function_exists('ud_wp_body_open')) {
-    function ud_wp_body_open()
-    {
-        do_action('wp_body_open');
-    }
-}
-add_action('wp_body_open', 'ud_skip_link', 5);
-function ud_skip_link(){
-    echo '<a href="#content" class="skip-link screen-reader-text">Skip to the content</a>';
-}
+add_filter('nav_menu_link_attributes', 'ud_schema_url', 10);
 
-/* =============================================================== *\ 
-   Add Title-Separator 
-\* =============================================================== */ 
-add_filter( 'document_title_separator', 'document_title_separator' );
-function document_title_separator( $sep ) {
+
+/* =============================================================== *\
+   Add Title-Separator
+\* =============================================================== */
+
+function ud_document_title_separator( $sep ) {
     $sep = '|';
     return $sep;
 }
+add_filter( 'document_title_separator', 'ud_document_title_separator' );
 
-/* =============================================================== *\ 
-   Add ... to title, if necessary 
-\* =============================================================== */ 
-add_filter( 'the_title', 'mytitle' );
-function mytitle( $title ) {
+
+/* =============================================================== *\
+   Add ... to title, if necessary
+\* =============================================================== */
+
+function ud_title( $title ) {
     if ( $title == '' ) {
         return '...';
     } else {
         return $title;
     }
 }
+add_filter( 'the_title', 'ud_title' );
 
-/* =============================================================== *\ 
-   Remove automatically P-Tags 
-\* =============================================================== */ 
+
+/* =============================================================== *\
+   Remove automatically P-Tags
+\* =============================================================== */
+
 $priority = has_filter( 'the_content', 'wpautop' );
 if ( false !== $priority ) {
 	remove_filter( 'the_content', 'wpautop', $priority );
 }
 
-/* =============================================================== *\ 
-   Add Browser Class to html-tag
+
+/* =============================================================== *\
+   Add Browser to Body-Class
 \* =============================================================== */ 
-add_action('wp_footer', 'ud_footer');
-function ud_footer(){ ?>
-    <script>
-    jQuery(document).ready(function($) {
-        var deviceAgent = navigator.userAgent.toLowerCase();
-        if (deviceAgent.match(/(iphone|ipod|ipad)/)) {
-            $("html").addClass("ios");
-            $("html").addClass("mobile");
-        }
+
+function browser_body_class($classes) {
+    global $is_lynx, $is_gecko, $is_IE, $is_opera, $is_NS4, $is_safari, $is_chrome, $is_iphone;
+    if($is_lynx) $classes[] = 'lynx';
+    elseif($is_gecko) $classes[] = 'gecko';
+    elseif($is_opera) $classes[] = 'opera';
+    elseif($is_NS4) $classes[] = 'ns4';
+    elseif($is_safari) $classes[] = 'safari';
+    elseif($is_chrome) $classes[] = 'chrome';
+    elseif($is_IE) $classes[] = 'ie';
+    else $classes[] = 'unknown';
+    if($is_iphone) $classes[] = 'iphone';
+    return $classes;
+}  
+add_filter('body_class','browser_body_class');
+
+
+/* =============================================================== *\
+   Keep the Links in the excerpt
+\* =============================================================== */
+
+function ud_keep_the_links_in_excerpt($text) {
+	global $post;
+	if ( '' == $text ) {
+    	$text = get_the_content('');
+    	$text = apply_filters('the_content', $text);
+    	$text = str_replace('\]\]\>', ']]&gt;', $text);
+    	$text = preg_replace('@<script[^>]*?>.*?</script>@si', '', $text);
+    	$text = strip_tags($text, '<a>');
+  	}
+  	return $text;
+}
+remove_filter('get_the_excerpt', 'wp_trim_excerpt');
+add_filter('get_the_excerpt', 'ud_keep_the_links_in_excerpt');
+
+/* =============================================================== *\ 
+	 Breadcrumb - Menu
+	 @template archive.php
+	 //https://kulturbanause.de/blog/wordpress-breadcrumb-navigation-ohne-plugin/
+\* =============================================================== */ 
+
+/* =============================================================== *\ 
+ 	 
+   Comments
     
-        if (deviceAgent.match(/(Android)/)) {
-            $("html").addClass("android");
-            $("html").addClass("mobile");
-        }
+\* =============================================================== */ 
+  
+// Load Comment-Reply-Script
+function ud_enqueue_comment_reply_script() {
+	if ( get_option( 'thread_comments' ) ) {
+		wp_enqueue_script( 'comment-reply' );
+	}
+}
+add_action( 'comment_form_before', 'ud_enqueue_comment_reply_script' );
+
+
+// Placeholder for Comments 
+function ud_placeholder_author_email_url_form_fields($fields) {
+    $replace_author = "Name*";
+    $replace_email = "Email*";
+    $replace_url = "Website";
     
-        if (navigator.userAgent.search("MSIE") >= 0) {
-            $("html").addClass("ie");
-        } else if (navigator.userAgent.search("Chrome") >= 0) {
-            $("html").addClass("chrome");
-        } else if (navigator.userAgent.search("Firefox") >= 0) {
-            $("html").addClass("firefox");
-        } else if (navigator.userAgent.search("Safari") >= 0 && navigator.userAgent.search("Chrome") < 0) {
-            $("html").addClass("safari");
-        } else if (navigator.userAgent.search("Opera") >= 0) {
-            $("html").addClass("opera");
+    $fields['author'] = '<p class="comment-form-author">' . '<label for="author">' . __( 'Name', 'yourdomain' ) . '</label> ' . ( $req ? '<span class="required">*</span>' : '' ) .
+	'<input id="author" name="author" type="text" placeholder="'.$replace_author.'" value="' . esc_attr( $commenter['comment_author'] ) . '" size="20"' . $aria_req . ' /></p>';
+                    
+    $fields['email'] = '<p class="comment-form-email"><label for="email">' . __( 'Email', 'yourdomain' ) . '</label> ' . ( $req ? '<span class="required">*</span>' : '' ) .
+	'<input id="email" name="email" type="text" placeholder="'.$replace_email.'" value="' . esc_attr(  $commenter['comment_author_email'] ) . '" size="30"' . $aria_req . ' /></p>';
+    
+    $fields['url'] = '<p class="comment-form-url"><label for="url">' . __( 'Website', 'yourdomain' ) . '</label>' .
+    '<input id="url" name="url" type="text" placeholder="'.$replace_url.'" value="' . esc_attr( $commenter['comment_author_url'] ) . '" size="30" /></p>';
+    
+    return $fields;
+}
+add_filter('comment_form_default_fields','ud_placeholder_author_email_url_form_fields');  
+
+
+/* =============================================================== *\
+   Custom Login-Logo
+\* =============================================================== */
+
+function ud_login_logo() { ?>
+    <style type="text/css">
+        #login h1 a, .login h1 a {
+            background-image: url(<?php echo get_stylesheet_directory_uri(); ?>/images/BG_logo_rgb.svg);
+            padding-bottom: 60px;
+            width:320px;
+            background-repeat: no-repeat;
+ 			background-size: 250px auto;
         }
-    });
-    </script>
-<?php
+    </style><?php 
+}
+add_action( 'login_enqueue_scripts', 'ud_login_logo' );
+
+  
+
+/* =============================================================== *\ 
+
+   Plugins
+
+\* =============================================================== */ 
+  
+  
+/* =============================================================== *\ 
+   ACF: Add Options Page 
+\* =============================================================== */ 
+if( function_exists('acf_add_options_page') ) {
+	acf_add_options_page();
+}
+
+
+/* =============================================================== *\ 
+   Woocommerce: Add Theme Support
+   Woocommerce Unterstützung Backend > WooCommerce > Status deklarieren
+\* =============================================================== */ 
+/*
+function setup_woocommerce_support() { 
+	add_theme_support('woocommerce'); 
 } 
+*/
+//add_action( 'after_setup_theme', 'setup_woocommerce_support' ); 
+
 
