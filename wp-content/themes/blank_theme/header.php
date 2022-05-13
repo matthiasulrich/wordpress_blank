@@ -35,8 +35,21 @@ if(isIE){
 <?php wp_head(); ?>
 </head>
 
+<?php 
+$my_body_classes = "";
+/* =============================================================== *\ 
+   Mobile Detection 
+\* =============================================================== */ 
+  if(wp_is_mobile()== true):
+      $my_body_classes .= "is_mobile";
+  endif;
 
-<body <?php body_class(); ?>>
+$my_body_classes .= $my_color_scheme;
+
+
+?>
+
+<body <?php body_class($my_body_classes); ?>>
 
 	<div id="page_wrapper" class="hfeed">
 		<header id="header">
