@@ -46,6 +46,7 @@ $my_body_classes = "";
 ?>
 
 <body <?php body_class($my_body_classes); ?>>
+	<?php wp_body_open(); ?>
 
 	<div id="page_wrapper" class="hfeed">
 		<header id="header">
