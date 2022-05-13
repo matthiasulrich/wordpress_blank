@@ -41,12 +41,8 @@ $my_body_classes = "";
    Mobile Detection 
 \* =============================================================== */ 
   if(wp_is_mobile()== true):
-      $my_body_classes .= "is_mobile";
+      $my_body_classes .= "is_mobile ";
   endif;
-
-$my_body_classes .= $my_color_scheme;
-
-
 ?>
 
 <body <?php body_class($my_body_classes); ?>>
