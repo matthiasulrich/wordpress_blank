@@ -49,8 +49,8 @@ function ulrich_digital_setup(){
     add_theme_support( 'post-thumbnails' );
 	add_theme_support('responsive-embeds');
 	//add_theme_support( 'automatic-feed-links' );
-	add_theme_support('html5', array( 'search-form', 'navigation-widgets' ));
-    
+    	add_theme_support( 'html5', array( 'comment-list', 'comment-form', 'search-form', 'gallery', 'caption', 'style', 'script' ) );
+
 	global $content_width;
 	if (!isset($content_width)) {
 		$content_width = 1920;
