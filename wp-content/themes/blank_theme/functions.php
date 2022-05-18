@@ -779,6 +779,18 @@ function ud_schema_url($atts){
 add_filter('nav_menu_link_attributes', 'ud_schema_url', 10);
 
 
+/* =============================================================== *\ 
+   Core Styles unterbinden 
+\* =============================================================== */ 
+  
+remove_filter( 'render_block', 'wp_render_layout_support_flag', 10, 2 );
+remove_filter( 'render_block', 'gutenberg_render_layout_support_flag', 10, 2 );
+
+add_filter( 'render_block', function( $block_content, $block ) {
+	return $block_content;
+}, 10, 2 );
+
+
 /* =============================================================== *\
    Add Title-Separator
 \* =============================================================== */
