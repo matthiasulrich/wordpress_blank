@@ -6,6 +6,26 @@
 
 setlocale(LC_TIME, "de_DE.utf8");
 
+
+/* =============================================================== *\
+   Google-Analytics only on LiveSite
+\* =============================================================== */
+if("https://HIER_DEINE_LIVE_SITE_URL_EINTRAGEN" == get_home_url()):
+	add_action( 'wp_head', 'add_google_analytics_tag');
+endif;
+
+function add_google_analytics_tag(){ ?>
+	<!-- Google tag (gtag.js) -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-HD9HZ7TQTN"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+		gtag('config', 'G-HD9HZ7TQTN');
+	</script>
+<?php }
+
+
 /* =============================================================== *\ 
  	 
 	 Backend
