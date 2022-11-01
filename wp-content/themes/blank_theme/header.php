@@ -6,17 +6,6 @@
 <meta name="viewport" content="width=device-width" />
 <meta name="description" content="Beschreibung hier">
 
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<!--<script async src="https://www.googletagmanager.com/gtag/js?id=UA-78418230-17"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-78418230-17');
-</script>
--->
-
 <script>
 var isIE = /*@cc_on!@*/false || !!document.documentMode;
 if(isIE){
