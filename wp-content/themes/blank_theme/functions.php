@@ -102,7 +102,30 @@ function ud_widgets_init() {
 }
 add_action( 'widgets_init', 'ud_widgets_init' );
   
-  
+/* =============================================================== *\
+ 	 Custom Admin-Logo
+\* =============================================================== */
+add_action( 'login_enqueue_scripts', 'my_login_logo' );
+function my_login_logo() { ?>
+    <style type="text/css">
+        #login h1 a, .login h1 a {
+		background-image: url(<?php echo get_stylesheet_directory_uri(); ?>/images/BG_logo_rgb.svg);
+		padding-bottom: 60px;
+		width:320px;
+		background-repeat: no-repeat;
+		background-size: 250px auto;
+        }
+    </style>
+<?php }
+
+/* =============================================================== *\ 
+   Custom Admin-Logo link to Home URL
+\* =============================================================== */
+
+function my_login_logo_url() {
+    return home_url();
+}
+add_filter( 'login_headerurl', 'my_login_logo_url' );
   
 /* =============================================================== *\ 
 
